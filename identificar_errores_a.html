@@ -297,7 +297,7 @@
       
       const words = sentence.text.split(' ');
       words.forEach((word, i) => {
-        if (word.startsWith('a ') && i < words.length - 1) {
+        if ((word.startsWith('a ') || word.startsWith('al ')) && i < words.length - 1) {
           const aSpan = document.createElement('span');
           aSpan.className = 'a-marker';
           aSpan.textContent = 'a';

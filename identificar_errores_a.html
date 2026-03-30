@@ -303,21 +303,21 @@
           aSpan.textContent = 'a';
           aSpan.title = 'Marcador de "a" de complemento directo';
           textDiv.appendChild(aSpan);
-          
+    
           const restSpan = document.createElement('span');
           restSpan.className = 'word';
           restSpan.textContent = word.slice(1) + ' ';
           textDiv.appendChild(restSpan);
-        } else if (word === 'a' && i < words.length - 1) {
+        } else if ((word === 'a' || word === 'al') && i < words.length - 1) {
           const aSpan = document.createElement('span');
           aSpan.className = 'a-marker';
           aSpan.textContent = 'a';
           aSpan.title = 'Marcador de "a" de complemento directo';
           textDiv.appendChild(aSpan);
-          
+    
           const space = document.createElement('span');
           space.className = 'word';
-          space.textContent = ' ';
+         space.textContent = (word === 'al' ? 'l ' : ' ');
           textDiv.appendChild(space);
         } else {
           const span = document.createElement('span');

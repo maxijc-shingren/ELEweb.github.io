@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Identificar errores con "a" - ELE A2</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+    }
+    
+    .container { max-width: 850px; margin: 0 auto; padding: 1.5rem; }
+    
+    h1 { font-size: 22px; font-weight: 500; margin-bottom: 0.5rem; }
+    
+    .instructions {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    
+    .sentences-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .sentence-card {
+      background: white;
+      border: 0.5px solid #ddd;
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      transition: all 0.2s;
+    }
+    
+    .sentence-card:hover {
+      border-color: #bbb;
+    }
+    
+    .sentence-card.selected {
+      background: #E6F1FB;
+      border-color: #185FA5;
+    }
+    
+    .sentence-number {
+      font-size: 13px;
+      font-weight: 500;
+      color: #666;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .sentence-card.selected .sentence-number {
+      color: #185FA5;
+    }
+    
+    .sentence-text {
+      font-size: 15px;
+      line-height: 1.6;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+    }
+    
+    .sentence-card.selected .sentence-text {
+      color: #042C53;
+    }
+    
+    .word {
+      display: inline;
+    }
+    
+    .a-marker {
+      background: #FAEEDA;
+      color: #854F0B;
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .a-marker:hover {
+      background: #EF9F27;
+      color: white;
+    }
+    
+    .sentence-card.selected .a-marker {
+      background: rgba(55, 138, 221, 0.5);
+      color: white;
+    }
+    
+    .checkbox-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 0.5px solid #ddd;
+    }
+    
+    .sentence-card.selected .checkbox-wrapper {
+      border-color: rgba(55, 138, 221, 0.3);
+    }
+    
+    input[type="checkbox"] {
+      cursor: pointer;
+      width: 18px;
+      height: 18px;
+    }
+    
+    .checkbox-label {
+      font-size: 13px;
+      color: #666;
+      cursor: pointer;
+    }
+    
+    .sentence-card.selected .checkbox-label {
+      color: #185FA5;
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .btn {
+      padding: 0.75rem 1.5rem;
+      font-size: 15px;
+      font-weight: 500;
+      border: 0.5px solid #999;
+      background: white;
+      border-radius: 8px;
+      color: #333;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .btn:hover {
+      background: #f0f0f0;
+      border-color: #666;
+    }
+    
+    .btn:active {
+      transform: scale(0.98);
+    }
+    
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .result-area {
+      display: none;
+      background: white;
+      border: 0.5px solid #ddd;
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+    
+    .result-area.show {
+      display: block;
+    }
+    
+    .result-header {
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 0.5px solid #ddd;
+    }
+    
+    .result-success {
+      background: #EAF3DE;
+      color: #27500A;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+    
+    .result-error {
+      background: #FCEBEB;
+      color: #501313;
+      padding: 0.75rem;
+      border-radius: 8px;
+      margin-bottom: 0.75rem;
+      font-size: 14px;
+    }
+    
+    .error-item {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 0.5px solid #ddd;
+    }
+    
+    .error-item:first-of-type {
+      margin-top: 1.5rem;
+      border-top: 0.5px solid #ddd;
+    }
+    
+    .error-sentence {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+    
+    .error-feedback {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.5;
+    }
+    
+    .reset-btn {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      font-size: 13px;
+      color: #666;
+      border: 0.5px solid #ccc;
+      background: white;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .reset-btn:hover {
+      border-color: #999;
+      color: #333;
+    }
+    
+    @media (max-width: 640px) {
+      .button-group {
+        flex-direction: column;
+      }
+      
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Identificar errores con "a"</h1>
+  
+  <div class="instructions">
+    Selecciona las <strong>4 frases con error</strong> (donde la "a" de complemento directo está incorrectamente usada). Los marcadores amarillos indican dónde aparece la "a" en cada frase.
+  </div>
+  
+  <div class="sentences-container" id="sentencesContainer"></div>
+  
+  <div class="button-group">
+    <button class="btn" id="checkBtn">Verificar respuesta</button>
+    <button class="btn" id="resetBtn">Limpiar selección</button>
+  </div>
+  
+  <div class="result-area" id="resultArea"></div>
+</div>
+
+<script>
+  const sentences = [
+    { text: "Adoro a Juan. Es muy simpático.", hasError: false, feedback: "" },
+    { text: "Te estoy mirando a vos.", hasError: false, feedback: "" },
+    { text: "Tengo que mirar a esa serie.", hasError: true, feedback: "Las series son cosas, no seres animados. Debe ser: 'Tengo que mirar esa serie'." },
+    { text: "Quiero mucho a Misu, mi gatito.", hasError: false, feedback: "" },
+    { text: "No encuentro a mi campera de invierno.", hasError: true, feedback: "Las prendas de ropa son cosas. Debe ser: 'No encuentro mi campera de invierno'." },
+    { text: "No encuentro a Misu, ¿dónde está?", hasError: false, feedback: "" },
+    { text: "Misu saltó y rompió a la lámpara.", hasError: true, feedback: "Las lámparas son cosas, no seres animados. Debe ser: 'Misu saltó y rompió la lámpara'." },
+    { text: "Busco al electricista que me recomendó Juan.", hasError: false, feedback: "" },
+    { text: "Busco a un plomero para arreglar una pérdida de agua.", hasError: true, feedback: "Los oficios son profesiones (cosas). Debe ser: 'Busco un plomero para arreglar una pérdida de agua'." }
+  ];
+  
+  let selectedSentences = new Set();
+  
+  function renderSentences() {
+    const container = document.getElementById('sentencesContainer');
+    
+    sentences.forEach((sentence, index) => {
+      const card = document.createElement('div');
+      card.className = 'sentence-card';
+      card.dataset.index = index;
+      
+      const number = document.createElement('div');
+      number.className = 'sentence-number';
+      number.textContent = `Frase ${index + 1}`;
+      
+      const textDiv = document.createElement('div');
+      textDiv.className = 'sentence-text';
+      
+      const words = sentence.text.split(' ');
+      words.forEach((word, i) => {
+        if (word.startsWith('a ') && i < words.length - 1) {
+          const aSpan = document.createElement('span');
+          aSpan.className = 'a-marker';
+          aSpan.textContent = 'a';
+          aSpan.title = 'Marcador de "a" de complemento directo';
+          textDiv.appendChild(aSpan);
+          
+          const restSpan = document.createElement('span');
+          restSpan.className = 'word';
+          restSpan.textContent = word.slice(1) + ' ';
+          textDiv.appendChild(restSpan);
+        } else if (word === 'a' && i < words.length - 1) {
+          const aSpan = document.createElement('span');
+          aSpan.className = 'a-marker';
+          aSpan.textContent = 'a';
+          aSpan.title = 'Marcador de "a" de complemento directo';
+          textDiv.appendChild(aSpan);
+          
+          const space = document.createElement('span');
+          space.className = 'word';
+          space.textContent = ' ';
+          textDiv.appendChild(space);
+        } else {
+          const span = document.createElement('span');
+          span.className = 'word';
+          span.textContent = word + (i < words.length - 1 ? ' ' : '');
+          textDiv.appendChild(span);
+        }
+      });
+      
+      const checkboxWrapper = document.createElement('div');
+      checkboxWrapper.className = 'checkbox-wrapper';
+      
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.id = `sentence-${index}`;
+      checkbox.dataset.index = index;
+      
+      const label = document.createElement('label');
+      label.className = 'checkbox-label';
+      label.htmlFor = `sentence-${index}`;
+      label.textContent = 'Esta frase tiene un error';
+      
+      checkbox.addEventListener('change', (e) => {
+        if (e.target.checked) {
+          selectedSentences.add(index);
+          card.classList.add('selected');
+        } else {
+          selectedSentences.delete(index);
+          card.classList.remove('selected');
+        }
+      });
+      
+      checkboxWrapper.appendChild(checkbox);
+      checkboxWrapper.appendChild(label);
+      
+      card.appendChild(number);
+      card.appendChild(textDiv);
+      card.appendChild(checkboxWrapper);
+      
+      container.appendChild(card);
+    });
+  }
+  
+  function checkAnswers() {
+    const correctErrors = new Set([2, 4, 6, 8]);
+    const isCorrect = selectedSentences.size === 4 && 
+                     Array.from(selectedSentences).every(i => correctErrors.has(i)) &&
+                     Array.from(correctErrors).every(i => selectedSentences.has(i));
+    
+    const resultArea = document.getElementById('resultArea');
+    resultArea.innerHTML = '';
+    
+    if (isCorrect) {
+      const success = document.createElement('div');
+      success.className = 'result-success';
+      success.textContent = '✓ ¡Correcto! Identificaste todas las frases con error.';
+      resultArea.appendChild(success);
+    } else {
+      const errorDiv = document.createElement('div');
+      
+      const header = document.createElement('div');
+      header.className = 'result-header';
+      header.textContent = 'Revisión de respuestas:';
+      errorDiv.appendChild(header);
+      
+      const correctErrors = [2, 4, 6, 8];
+      
+      const incorrectSelected = Array.from(selectedSentences).filter(i => !correctErrors.includes(i));
+      const missingSelected = correctErrors.filter(i => !selectedSentences.has(i));
+      
+      if (incorrectSelected.length > 0) {
+        const errorMsg = document.createElement('div');
+        errorMsg.className = 'result-error';
+        errorMsg.innerHTML = `<strong>Seleccionaste incorrectamente:</strong> ${incorrectSelected.map(i => i + 1).join(', ')}`;
+        errorDiv.appendChild(errorMsg);
+      }
+      
+      if (missingSelected.length > 0) {
+        const errorMsg = document.createElement('div');
+        errorMsg.className = 'result-error';
+        errorMsg.innerHTML = `<strong>Te faltó seleccionar:</strong> ${missingSelected.map(i => i + 1).join(', ')}`;
+        errorDiv.appendChild(errorMsg);
+      }
+      
+      const feedbackSection = document.createElement('div');
+      
+      correctErrors.forEach(i => {
+        if (selectedSentences.has(i) || missingSelected.includes(i)) {
+          const item = document.createElement('div');
+          item.className = 'error-item';
+          
+          const sentenceLabel = document.createElement('div');
+          sentenceLabel.className = 'error-sentence';
+          sentenceLabel.textContent = `Frase ${i + 1}: ${sentences[i].text}`;
+          
+          const feedback = document.createElement('div');
+          feedback.className = 'error-feedback';
+          feedback.textContent = sentences[i].feedback;
+          
+          item.appendChild(sentenceLabel);
+          item.appendChild(feedback);
+          feedbackSection.appendChild(item);
+        }
+      });
+      
+      errorDiv.appendChild(feedbackSection);
+      resultArea.appendChild(errorDiv);
+    }
+    
+    resultArea.classList.add('show');
+  }
+  
+  function resetSelection() {
+    selectedSentences.clear();
+    document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      cb.checked = false;
+    });
+    document.querySelectorAll('.sentence-card').forEach(card => {
+      card.classList.remove('selected');
+    });
+    document.getElementById('resultArea').classList.remove('show');
+  }
+  
+  document.getElementById('checkBtn').addEventListener('click', checkAnswers);
+  document.getElementById('resetBtn').addEventListener('click', resetSelection);
+  
+  renderSentences();
+</script>
+
+</body>
+</html>

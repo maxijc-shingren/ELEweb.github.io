@@ -311,13 +311,13 @@
         } else if ((word === 'a' || word === 'al') && i < words.length - 1) {
           const aSpan = document.createElement('span');
           aSpan.className = 'a-marker';
-          aSpan.textContent = 'a';
+          aSpan.textContent = word;
           aSpan.title = 'Marcador de "a" de complemento directo';
           textDiv.appendChild(aSpan);
-    
+  
           const space = document.createElement('span');
           space.className = 'word';
-          space.textContent = (word === 'al' ? 'l ' : ' ');
+          space.textContent = ' ';
           textDiv.appendChild(space);
         } else {
           const span = document.createElement('span');

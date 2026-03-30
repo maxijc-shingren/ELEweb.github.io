@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frases Locas - Juego ELE A2</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; 
+      background: #f5f5f5;
+      color: #333;
+    }
+    
+    .container { max-width: 900px; margin: 0 auto; padding: 1.5rem; }
+    
+    h1 { font-size: 24px; font-weight: 500; margin-bottom: 1.5rem; text-align: center; }
+    
+    .game-wrapper { display: flex; flex-direction: column; gap: 2rem; }
+    
+    .columns-section {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .column {
+      background: white;
+      border: 0.5px solid #ddd;
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    
+    .column-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: #666;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .column-items {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    
+    .item {
+      padding: 0.75rem;
+      background: #f0f0f0;
+      border-radius: 8px;
+      font-size: 13px;
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    
+    .item.selected {
+      background: #378ADD;
+      color: white;
+      font-weight: 500;
+      box-shadow: 0 2px 8px rgba(55, 138, 221, 0.3);
+    }
+    
+    .dice-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 2rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      border: 0.5px solid #ddd;
+    }
+    
+    .rolling-phase {
+      font-size: 14px;
+      font-weight: 500;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .dice-container {
+      perspective: none;
+    }
+    
+    .dice {
+      width: 100px;
+      height: 100px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-origin: center;
+    }
+    
+    .dice.rolling {
+      animation: rollDice 0.6s ease-out;
+    }
+    
+    @keyframes rollDice {
+      0% { transform: scale(1) rotate(0deg); }
+      25% { transform: scale(0.95) rotate(90deg); }
+      50% { transform: scale(1) rotate(180deg); }
+      75% { transform: scale(0.95) rotate(270deg); }
+      100% { transform: scale(1) rotate(360deg); }
+    }
+    
+    .dice-face {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      font-weight: 600;
+      border: 2px solid #999;
+      border-radius: 12px;
+      background: white;
+      color: #333;
+      opacity: 0;
+      transition: opacity 0.1s;
+    }
+    
+    .dice-face:nth-child(1) { opacity: 1; }
+    .dice-face:nth-child(2) { opacity: 0; }
+    .dice-face:nth-child(3) { opacity: 0; }
+    .dice-face:nth-child(4) { opacity: 0; }
+    .dice-face:nth-child(5) { opacity: 0; }
+    .dice-face:nth-child(6) { opacity: 0; }
+    
+    .roll-button {
+      padding: 0.75rem 2rem;
+      font-size: 16px;
+      font-weight: 500;
+      background: white;
+      border: 0.5px solid #999;
+      border-radius: 8px;
+      color: #333;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .roll-button:hover:not(:disabled) {
+      background: #f0f0f0;
+      border-color: #666;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .roll-button:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+    
+    .roll-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .progress-indicator {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .progress-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #e0e0e0;
+      border: 0.5px solid #ccc;
+      transition: all 0.2s;
+    }
+    
+    .progress-dot.active {
+      background: #378ADD;
+      border-color: #185FA5;
+      box-shadow: 0 0 0 2px rgba(55, 138, 221, 0.2);
+    }
+    
+    .progress-dot.completed {
+      background: #639922;
+      border-color: #3B6D11;
+    }
+    
+    .result-section {
+      background: white;
+      border: 0.5px solid #ddd;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    
+    .result-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: #666;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.5px;
+    }
+    
+    .result-display {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: #f0f0f0;
+      border-radius: 8px;
+      min-height: 50px;
+      font-size: 15px;
+    }
+    
+    .result-element {
+      background: #378ADD;
+      color: white;
+      padding: 0.5rem 0.75rem;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    
+    .result-verb {
+      font-style: italic;
+      color: #333;
+      font-weight: 500;
+    }
+    
+    .verb-section {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    
+    .verb-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+    }
+    
+    .verb-input {
+      padding: 0.75rem;
+      font-size: 16px;
+      border: 0.5px solid #ccc;
+      border-radius: 8px;
+      background: white;
+      color: #333;
+      font-family: inherit;
+    }
+    
+    .verb-input:focus {
+      outline: none;
+      border-color: #378ADD;
+      box-shadow: 0 0 0 3px rgba(55, 138, 221, 0.1);
+    }
+    
+    .verb-input:disabled {
+      background: #f0f0f0;
+      color: #999;
+      cursor: not-allowed;
+    }
+    
+    .reset-button {
+      align-self: flex-start;
+      padding: 0.5rem 1rem;
+      font-size: 13px;
+      font-weight: 500;
+      background: white;
+      border: 0.5px solid #ccc;
+      border-radius: 8px;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .reset-button:hover {
+      border-color: #378ADD;
+      color: #378ADD;
+      background: #f0f8ff;
+    }
+    
+    @media (max-width: 768px) {
+      .columns-section {
+        grid-template-columns: 1fr;
+      }
+      
+      .dice-face {
+        width: 80px;
+        height: 80px;
+        font-size: 36px;
+      }
+      
+      .dice {
+        width: 80px;
+        height: 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Frases Locas</h1>
+  
+  <div class="game-wrapper">
+    <div class="columns-section">
+      <div class="column">
+        <div class="column-title">Sujeto</div>
+        <div class="column-items" id="subjectItems"></div>
+      </div>
+      
+      <div class="column">
+        <div class="column-title">Objeto Directo</div>
+        <div class="column-items" id="objectItems"></div>
+      </div>
+      
+      <div class="column">
+        <div class="column-title">Objeto Indirecto</div>
+        <div class="column-items" id="indirectItems"></div>
+      </div>
+    </div>
+    
+    <div class="dice-section">
+      <div class="progress-indicator" id="progressIndicator">
+        <div class="progress-dot active" id="dot0"></div>
+        <div class="progress-dot" id="dot1"></div>
+        <div class="progress-dot" id="dot2"></div>
+      </div>
+      
+      <div class="rolling-phase" id="phaseLabel">Tirada 1: Lanza para el SUJETO</div>
+      
+      <div class="dice-container">
+        <div class="dice" id="dice">
+          <div class="dice-face">1</div>
+          <div class="dice-face">2</div>
+          <div class="dice-face">3</div>
+          <div class="dice-face">4</div>
+          <div class="dice-face">5</div>
+          <div class="dice-face">6</div>
+        </div>
+      </div>
+      <button class="roll-button" id="rollButton">Lanzar dado</button>
+    </div>
+    
+    <div class="result-section">
+      <div class="result-title">Tu frase:</div>
+      <div class="result-display" id="resultDisplay">
+        <span style="color: #999;">Lanza el dado para comenzar...</span>
+      </div>
+      
+      <div class="verb-section">
+        <label class="verb-label">Verbo (escribe aquí):</label>
+        <input type="text" class="verb-input" id="verbInput" placeholder="Ej: dar, decir, comprar..." disabled />
+      </div>
+      
+      <button class="reset-button" id="resetButton">Limpiar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Datos para cada columna
+  const sujetos = [
+    "Pepe, el ladrón de manzanas",
+    "La tía del verdulero",
+    "Los cazafantasmas",
+    "Un pingüino bailarín",
+    "La reina de las galletas",
+    "Tres gatos ninjas"
+  ];
+  
+  const objetos = [
+    "un sándwich de chocolate",
+    "todas las respuestas del examen",
+    "un elefante rosado",
+    "la última pizza del planeta",
+    "un diccionario volador",
+    "las llaves del castillo"
+  ];
+  
+  const indirectos = [
+    "a un extraterrestre pelirrojo",
+    "al profesor más confundido",
+    "a los pingüinos del sur",
+    "a su mejor amigo invisible",
+    "a la maestra de yoga",
+    "al fantasma de la biblioteca"
+  ];
+  
+  // Elementos del DOM
+  const subjectItems = document.getElementById('subjectItems');
+  const objectItems = document.getElementById('objectItems');
+  const indirectItems = document.getElementById('indirectItems');
+  const dice = document.getElementById('dice');
+  const rollButton = document.getElementById('rollButton');
+  const resultDisplay = document.getElementById('resultDisplay');
+  const verbInput = document.getElementById('verbInput');
+  const resetButton = document.getElementById('resetButton');
+  const phaseLabel = document.getElementById('phaseLabel');
+  const progressIndicator = document.getElementById('progressIndicator');
+  
+  let currentPhase = 0;
+  let currentSelection = { subject: null, object: null, indirect: null };
+  let audioContext = null;
+  
+  // Renderizar elementos en las columnas
+  function renderColumns() {
+    subjectItems.innerHTML = sujetos.map((s, i) => 
+      `<div class="item" data-index="${i + 1}">${s}</div>`
+    ).join('');
+    
+    objectItems.innerHTML = objetos.map((o, i) => 
+      `<div class="item" data-index="${i + 1}">${o}</div>`
+    ).join('');
+    
+    indirectItems.innerHTML = indirectos.map((ind, i) => 
+      `<div class="item" data-index="${i + 1}">${ind}</div>`
+    ).join('');
+  }
+  
+  // Generar número aleatorio 1-6
+  function getRandomNumber() {
+    return Math.floor(Math.random() * 6) + 1;
+  }
+  
+  // Reproducir sonido del dado
+  function playDiceSound() {
+    try {
+      if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      
+      const now = audioContext.currentTime;
+      const osc = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      
+      osc.connect(gain);
+      gain.connect(audioContext.destination);
+      
+      osc.frequency.setValueAtTime(800, now);
+      osc.frequency.exponentialRampToValueAtTime(200, now + 0.2);
+      gain.gain.setValueAtTime(0.3, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+      
+      osc.start(now);
+      osc.stop(now + 0.2);
+    } catch (e) {
+      console.log("Audio no disponible");
+    }
+  }
+  
+  // Lanzar dado
+  function rollDice() {
+    rollButton.disabled = true;
+    dice.classList.add('rolling');
+    playDiceSound();
+    
+    // Mostrar número aleatorio durante la animación
+    const displayNumbers = [getRandomNumber(), getRandomNumber(), getRandomNumber()];
+    let displayIndex = 0;
+    const displayInterval = setInterval(() => {
+      const faces = document.querySelectorAll('.dice-face');
+      faces.forEach(f => f.style.opacity = '0');
+      faces[displayNumbers[displayIndex] - 1].style.opacity = '1';
+      displayIndex = (displayIndex + 1) % 3;
+    }, 150);
+    
+    setTimeout(() => {
+      clearInterval(displayInterval);
+      const number = getRandomNumber();
+      
+      setTimeout(() => {
+        dice.classList.remove('rolling');
+        
+        // Mostrar el número final
+        const faces = document.querySelectorAll('.dice-face');
+        faces.forEach(f => f.style.opacity = '0');
+        faces[number - 1].style.opacity = '1';
+        
+        // Guardar selección según la fase
+        if (currentPhase === 0) {
+          currentSelection.subject = number;
+        } else if (currentPhase === 1) {
+          currentSelection.object = number;
+        } else if (currentPhase === 2) {
+          currentSelection.indirect = number;
+        }
+        
+        // Destacar elemento seleccionado
+        highlightSelection();
+        
+        // Mostrar resultado parcial
+        updateResult();
+        
+        // Avanzar a siguiente fase
+        if (currentPhase < 2) {
+          currentPhase++;
+          updatePhase();
+        } else {
+          phaseLabel.textContent = "¡Todas las tiradas completadas! Escribe el verbo.";
+          verbInput.disabled = false;
+          verbInput.focus();
+        }
+        
+        rollButton.disabled = false;
+      }, 600);
+    }, 450);
+  }
+  
+  // Actualizar fase
+  function updatePhase() {
+    const phaseTexts = [
+      "Tirada 1: Lanza para el SUJETO",
+      "Tirada 2: Lanza para el OBJETO DIRECTO",
+      "Tirada 3: Lanza para el OBJETO INDIRECTO"
+    ];
+    
+    phaseLabel.textContent = phaseTexts[currentPhase];
+    
+    // Actualizar indicadores de progreso
+    document.querySelectorAll('.progress-dot').forEach((dot, i) => {
+      dot.classList.remove('active', 'completed');
+      if (i < currentPhase) {
+        dot.classList.add('completed');
+      } else if (i === currentPhase) {
+        dot.classList.add('active');
+      }
+    });
+  }
+  
+  // Destacar elementos seleccionados
+  function highlightSelection() {
+    document.querySelectorAll('.item.selected').forEach(item => {
+      item.classList.remove('selected');
+    });
+    
+    if (currentSelection.subject) {
+      subjectItems.querySelectorAll('.item').forEach((item, i) => {
+        if (i + 1 === currentSelection.subject) item.classList.add('selected');
+      });
+    }
+    
+    if (currentSelection.object) {
+      objectItems.querySelectorAll('.item').forEach((item, i) => {
+        if (i + 1 === currentSelection.object) item.classList.add('selected');
+      });
+    }
+    
+    if (currentSelection.indirect) {
+      indirectItems.querySelectorAll('.item').forEach((item, i) => {
+        if (i + 1 === currentSelection.indirect) item.classList.add('selected');
+      });
+    }
+  }
+  
+  // Actualizar resultado
+  function updateResult() {
+    let html = '';
+    
+    if (currentSelection.subject) {
+      const subject = sujetos[currentSelection.subject - 1];
+      html += `<span class="result-element">${subject}</span>`;
+    }
+    
+    const verb = verbInput.value.trim();
+    if (verb) {
+      html += `<span class="result-verb">${verb}</span>`;
+    } else {
+      html += '<span style="color: #999;">[verbo]</span>';
+    }
+    
+    if (currentSelection.object) {
+      const object = objetos[currentSelection.object - 1];
+      html += `<span class="result-element">${object}</span>`;
+    }
+    
+    if (currentSelection.indirect) {
+      const indirect = indirectos[currentSelection.indirect - 1];
+      html += `<span class="result-element">${indirect}</span>`;
+    }
+    
+    if (html === '') {
+      html = '<span style="color: #999;">Lanza el dado para comenzar...</span>';
+    }
+    
+    resultDisplay.innerHTML = html;
+  }
+  
+  // Limpiar
+  function reset() {
+    currentPhase = 0;
+    currentSelection = { subject: null, object: null, indirect: null };
+    verbInput.value = '';
+    verbInput.disabled = true;
+    resultDisplay.innerHTML = '<span style="color: #999;">Lanza el dado para comenzar...</span>';
+    document.querySelectorAll('.item.selected').forEach(item => {
+      item.classList.remove('selected');
+    });
+    updatePhase();
+    phaseLabel.textContent = "Tirada 1: Lanza para el SUJETO";
+    
+    // Resetear el dado a mostrar 1
+    const faces = document.querySelectorAll('.dice-face');
+    faces.forEach(f => f.style.opacity = '0');
+    faces[0].style.opacity = '1';
+  }
+  
+  // Event listeners
+  rollButton.addEventListener('click', rollDice);
+  resetButton.addEventListener('click', reset);
+  verbInput.addEventListener('input', updateResult);
+  
+  // Inicializar
+  renderColumns();
+  updatePhase();
+</script>
+
+</body>
+</html>

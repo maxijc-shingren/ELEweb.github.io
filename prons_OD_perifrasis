@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pronombres de OD en perífrasis verbales</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Arial,sans-serif;background:#e5ddd5;min-height:100vh;padding:16px 8px 24px}
+  @media(prefers-color-scheme:dark){body{background:#0d1418}}
+
+  .container{max-width:520px;margin:0 auto}
+
+  h2{font-size:14px;font-weight:normal;color:#555;text-align:center;margin-bottom:12px;letter-spacing:.3px}
+  @media(prefers-color-scheme:dark){h2{color:#aaa}}
+
+  .instruccion{background:#fff;color:#333;border-radius:10px;padding:10px 14px;font-size:13.5px;margin-bottom:14px;border-left:4px solid #25d366;line-height:1.6}
+  @media(prefers-color-scheme:dark){.instruccion{background:#1f2c34;color:#e1e1e1}}
+
+  .bubble-row{display:flex;margin-bottom:6px}
+  .bubble-row.lucas{justify-content:flex-start}
+  .bubble-row.julieta{justify-content:flex-end}
+
+  .bubble{max-width:78%;padding:7px 12px 8px;border-radius:8px;font-size:14px;line-height:1.6;position:relative}
+  .bubble.lucas{background:#fff;border-top-left-radius:2px;color:#111}
+  .bubble.julieta{background:#dcf8c6;border-top-right-radius:2px;color:#111}
+  @media(prefers-color-scheme:dark){
+    .bubble.lucas{background:#1f2c34;color:#e1e1e1}
+    .bubble.julieta{background:#005c4b;color:#e1e1e1}
+  }
+
+  .name{font-size:11px;font-weight:bold;margin-bottom:2px}
+  .name.julieta-name{color:#25d366;text-align:right}
+  .name.lucas-name{color:#1a73e8}
+
+  .pron-input{
+    width:36px;height:22px;
+    border:none;border-bottom:2px solid #aaa;
+    background:transparent;
+    font-size:13px;text-align:center;
+    outline:none;color:inherit;
+    font-family:Arial,sans-serif;
+    padding:0 2px;vertical-align:middle;
+    transition:border-color .2s
+  }
+  .pron-input:focus{border-bottom-color:#25d366}
+  .pron-input.correct{border-bottom-color:#25d366;color:#25d366;font-weight:bold}
+  .pron-input.incorrect{border-bottom-color:#e53935;color:#e53935}
+  .pron-input.blocked{background:rgba(0,0,0,0.06);border-bottom-color:#ccc;cursor:not-allowed;color:#aaa}
+  @media(prefers-color-scheme:dark){.pron-input.blocked{background:rgba(255,255,255,0.05)}}
+
+  .feedback{font-size:11.5px;margin-top:5px;min-height:15px;font-style:italic}
+  .feedback.ok{color:#25d366}
+  .feedback.err{color:#e53935}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h2>Actividad: Pronombres de OD en perífrasis verbales</h2>
+
+  <div class="instruccion">
+    Lucas y Julieta están organizando su finde por WhatsApp. Completá los espacios usando el pronombre de Objeto Directo en una de sus dos posiciones posibles.
+  </div>
+
+  <!-- Julieta 1 -->
+  <div class="bubble-row julieta">
+    <div>
+      <div class="name julieta-name">Julieta</div>
+      <div class="bubble julieta">
+        ¡Hola! Che, ya salieron las entradas para la ópera en el Colón.<br>
+        ¿<input class="pron-input" id="a1" maxlength="3" autocomplete="off" placeholder="__"> vamos a comprar<input class="pron-input" id="a2" maxlength="3" autocomplete="off" placeholder="__"> hoy? ¡Se agotan rápido!
+        <div class="feedback" id="fb1"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lucas 1 -->
+  <div class="bubble-row lucas">
+    <div>
+      <div class="name lucas-name">Lucas</div>
+      <div class="bubble lucas">
+        ¡Sí, dale! Pero acordate de que también empieza el BAFICI. Hay una peli coreana que tiene muy buena crítica.
+      </div>
+    </div>
+  </div>
+
+  <!-- Julieta 2 -->
+  <div class="bubble-row julieta">
+    <div>
+      <div class="name julieta-name">Julieta</div>
+      <div class="bubble julieta">
+        ¡Buenísimo! <input class="pron-input" id="b1" maxlength="3" autocomplete="off" placeholder="__"> quiero ver<input class="pron-input" id="b2" maxlength="3" autocomplete="off" placeholder="__"> sí o sí.
+        <div class="feedback" id="fb2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lucas 2 -->
+  <div class="bubble-row lucas">
+    <div>
+      <div class="name lucas-name">Lucas</div>
+      <div class="bubble lucas">
+        Dale, yo saco las entradas para el cine. Che, ¿y el mapa de "La Noche de los Museos"? No lo encuentro.
+      </div>
+    </div>
+  </div>
+
+  <!-- Julieta 3 -->
+  <div class="bubble-row julieta">
+    <div>
+      <div class="name julieta-name">Julieta</div>
+      <div class="bubble julieta">
+        No te preocupes, yo <input class="pron-input" id="c1" maxlength="3" autocomplete="off" placeholder="__"> estoy buscando<input class="pron-input" id="c2" maxlength="3" autocomplete="off" placeholder="__"> en la web ahora mismo.
+        <div class="feedback" id="fb3"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lucas 3 -->
+  <div class="bubble-row lucas">
+    <div>
+      <div class="name lucas-name">Lucas</div>
+      <div class="bubble lucas">
+        ¡Genial! Ah, ¿viste que reabrieron el Museo de Bellas Artes?
+      </div>
+    </div>
+  </div>
+
+  <!-- Julieta 4 -->
+  <div class="bubble-row julieta">
+    <div>
+      <div class="name julieta-name">Julieta</div>
+      <div class="bubble julieta">
+        Sí, ¡qué bueno! <input class="pron-input" id="d1" maxlength="3" autocomplete="off" placeholder="__"> podemos visitar<input class="pron-input" id="d2" maxlength="3" autocomplete="off" placeholder="__"> el domingo a la tarde, ¿te parece?
+        <div class="feedback" id="fb4"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const groups = [
+  { ids: ['a1','a2'], answer: 'las', fb: 'fb1' },
+  { ids: ['b1','b2'], answer: 'la',  fb: 'fb2' },
+  { ids: ['c1','c2'], answer: 'lo',  fb: 'fb3' },
+  { ids: ['d1','d2'], answer: 'lo',  fb: 'fb4' },
+];
+
+groups.forEach(g => {
+  const el1 = document.getElementById(g.ids[0]);
+  const el2 = document.getElementById(g.ids[1]);
+  const fb  = document.getElementById(g.fb);
+
+  function check(active, other) {
+    const val = active.value.trim().toLowerCase();
+    if (!val) {
+      active.className = 'pron-input';
+      other.value = '';
+      other.className = 'pron-input';
+      other.removeAttribute('disabled');
+      fb.textContent = '';
+      fb.className = 'feedback';
+      return;
+    }
+    other.value = '';
+    other.setAttribute('disabled', true);
+    other.className = 'pron-input blocked';
+    if (val === g.answer) {
+      active.className = 'pron-input correct';
+      fb.textContent = '¡Correcto!';
+      fb.className = 'feedback ok';
+    } else {
+      active.className = 'pron-input incorrect';
+      fb.textContent = 'Revisá el pronombre.';
+      fb.className = 'feedback err';
+    }
+  }
+
+  el1.addEventListener('input', () => check(el1, el2));
+  el2.addEventListener('input', () => check(el2, el1));
+});
+</script>
+</body>
+</html>

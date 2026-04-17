@@ -340,13 +340,13 @@ const frases = [
     respuesta_completa: "Tengo ganas de verla."
   },
   {
-    antecedente: "En la librería encontré el libro que estaba buscando.",
-    segunda: ["Pero", "no", "tengo", "suficiente", "dinero", "para", "comprar"],
+    antecedente: "Las entradas para la ópera son difíciles de conseguir.",
+    segunda: ["Es", "necesario", "comprar"],
     verbo: "comprar",
-    pronombre: "lo",
-    sufijo: "",
-    antecedente_highlight: "el libro",
-    respuesta_completa: "Pero no tengo suficiente dinero para comprarlo."
+    pronombre: "las",
+    sufijo: " con anticipación.",
+    antecedente_highlight: "entradas",
+    respuesta_completa: "Es necesario comprarlas con bastante anticipación."
   },
   {
     antecedente: "Me encantan los libros usados.",
@@ -376,6 +376,15 @@ const frases = [
     respuesta_completa: "No olvides de llevarlos."
   },
   {
+    antecedente: "En la librería encontré el libro que estaba buscando, pero es muy caro...",
+    segunda: ["no", "tengo", "suficiente", "dinero", "para", "comprar"],
+    verbo: "comprar",
+    pronombre: "lo",
+    sufijo: "",
+    antecedente_highlight: "el libro",
+    respuesta_completa: "No tengo suficiente dinero para comprarlo."
+  },
+  {
     antecedente: "La entrada al concierto sale veinte mil pesos anticipada.",
     segunda: ["Haceme", "caso,", "comprar"],
     verbo: "comprar",
@@ -383,15 +392,6 @@ const frases = [
     sufijo: " un día antes por lo menos.",
     antecedente_highlight: "entrada",
     respuesta_completa: "Haceme caso, comprala un día antes por lo menos."
-  },
-  {
-    antecedente: "Las entradas para la ópera son difíciles de conseguir.",
-    segunda: ["Es", "necesario", "comprar"],
-    verbo: "comprar",
-    pronombre: "las",
-    sufijo: " con anticipación.",
-    antecedente_highlight: "entradas",
-    respuesta_completa: "Es necesario comprarlas con anticipación."
   },
   {
     antecedente: "El Museo Nacional de Bellas Artes es enorme.",

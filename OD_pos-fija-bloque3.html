@@ -349,20 +349,20 @@ const frases = [
     respuesta_completa: "Es necesario comprarlas con bastante anticipación."
   },
   {
-    antecedente: "Me encantan los libros usados.",
-    segunda: ["Me", "gusta", "buscar", "por", "Av. Corrientes"],
+    antecedente: "Me gustan los libros usados.",
+    segunda: ["Me", "encanta", "buscar"],
     verbo: "buscar",
     pronombre: "los",
-    sufijo: "",
+    sufijo: " por Av. Corrientes",
     antecedente_highlight: "libros usados",
     respuesta_completa: "Me gusta buscarlos por Av. Corrientes."
   },
   {
     antecedente: "Hay muchas actividades culturales en la Noche de las Librerías.",
-    segunda: ["Es", "imposible", "hacer", "todas"],
+    segunda: ["Es", "imposible", "hacer"],
     verbo: "hacer",
     pronombre: "las",
-    sufijo: "",
+    sufijo: " todas en una noche",
     antecedente_highlight: "actividades culturales",
     respuesta_completa: "Es imposible hacerlas todas en una noche."
   },
@@ -386,8 +386,8 @@ const frases = [
   },
   {
     antecedente: "La entrada al concierto sale veinte mil pesos anticipada.",
-    segunda: ["Haceme", "caso,", "comprar"],
-    verbo: "comprar",
+    segunda: ["Haceme", "caso,", "compra"],
+    verbo: "compra",
     pronombre: "la",
     sufijo: " un día antes por lo menos.",
     antecedente_highlight: "entrada",
@@ -512,7 +512,7 @@ function checkAnswer() {
   } else {
     fb.className = 'feedback incorrect';
     let msg = '✗ ';
-    if (!orderCorrect) msg += `El orden correcto era: "${correctOrder} ${f.verbo}___". `;
+    if (!orderCorrect) msg += `El orden correcto era: "${correctOrder}___". `;
     if (!pronounOk) msg += `El pronombre correcto es "${f.pronombre}" → ${f.verbo + f.pronombre}.`;
     fb.textContent = msg;
   }

@@ -78,7 +78,7 @@
 <body>
     <h1>Ejercicio: Remarcar tiempos verbales</h1>
     <div class="instrucciones">
-        <p>Lee el texto y haz clic en cada verbo para remarcarlo según el tiempo verbal:</p>
+        <p>Lee el texto y hacé clic en cada verbo para remarcarlo según el tiempo verbal:</p>
         <div class="leyenda">
             <div class="leyenda-item">
                 <div class="color-box pluscuamperfecto"></div>
@@ -102,14 +102,14 @@
             <span class="verbo" data-tiempo="imperfecto" data-correcto="Hacía">Hacía</span> calor y <span class="verbo" data-tiempo="imperfecto" data-correcto="había">había</span> muchos mosquitos.
         </p>
         <p>
-            En el camino me di cuenta de que me <span class="verbo" data-tiempo="pluscuamperfecto" data-correcto="había olvidado">había olvidado</span> la mochila en la que guardaba mi protector solar, el repelente de insectos y lo más importante: ¡mi cámara!
-            En fin, ya <span class="verbo" data-tiempo="imperfecto" data-correcto="era">era</span> tarde para regresar. Es que me <span class="verbo" data-tiempo="imperfecto" data-correcto="sentía">sentía</span> un poco nerviosa porque no sé nadar y <span class="verbo" data-tiempo="pluscuamperfecto" data-correcto="me había subido">me había subido</span> a una lancha.
+            En el camino me <span class="verbo" data-tiempo="perfecto-simple" data-correcto="di">di</span> cuenta de que me <span class="verbo" data-tiempo="pluscuamperfecto" data-correcto="había olvidado">había olvidado</span> la mochila en la que guardaba mi protector solar, el repelente de insectos y lo más importante: ¡mi cámara!
+            En fin, ya <span class="verbo" data-tiempo="imperfecto" data-correcto="era">era</span> tarde para regresar. Es que me <span class="verbo" data-tiempo="imperfecto" data-correcto="sentía">sentía</span> un poco nerviosa porque no sé nadar y jamás <span class="verbo" data-tiempo="pluscuamperfecto" data-correcto="me había subido">me había subido</span> a una lancha.
             Pero el paisaje <span class="verbo" data-tiempo="imperfecto" data-correcto="era">era</span> tan imponente que <span class="verbo" data-tiempo="perfecto-simple" data-correcto="valió">valió</span> la pena intentarlo.
         </p>
         <p>
-            En un momento la embarcación se acercó mucho a las cataratas. Nunca antes <span class="verbo" data-tiempo="pluscuamperfecto" data-correcto="había sentido">había sentido</span> tanta emoción. <span class="verbo" data-tiempo="imperfecto" data-correcto="Había">Había</span> muchísima agua, casi no <span class="verbo" data-tiempo="imperfecto" data-correcto="podía">podía</span> ver a los otros turistas.
-            ¡<span class="verbo" data-tiempo="imperfecto" data-correcto="Parecía">Parecía</span> que <span class="verbo" data-tiempo="pluscuamperfecto" data-correcto="hubieran desaparecido">hubieran desaparecido</span>!
-            <span class="verbo" data-tiempo="perfecto-simple" data-correcto="Estuvo">Estuvo</span> buenísimo. Fue mucho más divertido de lo que <span class="verbo" data-tiempo="pluscuamperfecto" data-correcto="había imaginado">había imaginado</span".
+            En un momento la embarcación se <span class="verbo" data-tiempo="perfecto-simple" data-correcto="acercó">acercó</span> mucho a las cataratas. Nunca antes <span class="verbo" data-tiempo="pluscuamperfecto" data-correcto="había sentido">había sentido</span> tanta emoción. <span class="verbo" data-tiempo="imperfecto" data-correcto="Había">Había</span> muchísima agua, casi no <span class="verbo" data-tiempo="imperfecto" data-correcto="podía">podía</span> ver a los otros turistas.
+            ¡<span class="verbo" data-tiempo="imperfecto" data-correcto="Parecía">Parecía</span> que <span class="verbo" data-tiempo="pluscuamperfecto" data-correcto="habían desaparecido">habían desaparecido</span>!
+            <span class="verbo" data-tiempo="perfecto-simple" data-correcto="Estuvo">Estuvo</span> buenísimo. <span class="verbo" data-tiempo="perfecto-simple" data-correcto="Fue">Fue</span> mucho más divertido de lo que <span class="verbo" data-tiempo="pluscuamperfecto" data-correcto="había imaginado">había imaginado</span".
         </p>
     </div>
 

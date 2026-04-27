@@ -47,9 +47,6 @@
             text-decoration: underline;
             text-decoration-style: dashed;
         }
-        .verbo.pluscuamperfecto { background-color: #4dd2ff; }
-        .verbo.perfecto-simple { background-color: #7cfc00; }
-        .verbo.imperfecto { background-color: #ff69b4; }
         button {
             padding: 10px 20px;
             background: #4CAF50;
@@ -121,30 +118,30 @@
 
     <script>
         const verbos = document.querySelectorAll('.verbo');
-        let cicloColores = {
-            'pluscuamperfecto': ['#4dd2ff', '#aaffff', '#00bfff'],
-            'perfecto-simple': ['#7cfc00', '#b3ffb3', '#32cd32'],
-            'imperfecto': ['#ff69b4', '#ffb6c1', '#ff1493']
+        const colores = {
+            'pluscuamperfecto': '#4dd2ff',
+            'perfecto-simple': '#7cfc00',
+            'imperfecto': '#ff69b4'
         };
-        let coloresSeleccionados = {
-            'pluscuamperfecto': 0,
-            'perfecto-simple': 0,
-            'imperfecto': 0
-        };
+        const tiempos = ['pluscuamperfecto', 'perfecto-simple', 'imperfecto'];
 
         verbos.forEach(verbo => {
+            let indiceColor = 0;
             verbo.addEventListener('click', () => {
-                const tiempo = verbo.dataset.tiempo;
-                coloresSeleccionados[tiempo] = (coloresSeleccionados[tiempo] + 1) % cicloColores[tiempo].length;
-                verbo.style.backgroundColor = cicloColores[tiempo][coloresSeleccionados[tiempo]];
-                verbo.classList.add(tiempo);
+                // Remover cualquier clase de color previa
+                verbo.style.backgroundColor = '';
+                // Ciclar entre los tres tiempos verbales
+                indiceColor = (indiceColor + 1) % tiempos.length;
+                const tiempoSeleccionado = tiempos[indiceColor];
+                verbo.style.backgroundColor = colores[tiempoSeleccionado];
+                verbo.dataset.seleccionado = tiempoSeleccionado;
             });
         });
 
         function corregir() {
             let aciertos = 0;
             verbos.forEach(verbo => {
-                const tiempoSeleccionado = Array.from(verbo.classList).find(cls => cls.includes('pluscuamperfecto') || cls.includes('perfecto-simple') || cls.includes('imperfecto'));
+                const tiempoSeleccionado = verbo.dataset.seleccionado;
                 const tiempoCorrecto = verbo.dataset.tiempo;
                 if (tiempoSeleccionado === tiempoCorrecto) {
                     aciertos++;

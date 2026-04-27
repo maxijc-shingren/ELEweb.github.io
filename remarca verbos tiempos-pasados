@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ejercicio: Remarcar tiempos verbales</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .instrucciones {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .leyenda {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+        .leyenda-item {
+            display: flex;
+            align-items: center;
+        }
+        .color-box {
+            width: 30px;
+            height: 5px;
+            margin-right: 10px;
+            border-radius: 2px;
+        }
+        .pluscuamperfecto { background-color: #4dd2ff; }
+        .perfecto-simple { background-color: #7cfc00; }
+        .imperfecto { background-color: #ff69b4; }
+        .texto-ejercicio {
+            font-size: 18px;
+            line-height: 2;
+        }
+        .verbo {
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-style: dashed;
+        }
+        .verbo.pluscuamperfecto { background-color: #4dd2ff; }
+        .verbo.perfecto-simple { background-color: #7cfc00; }
+        .verbo.imperfecto { background-color: #ff69b4; }
+        button {
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        #resultado {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .correcto {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .incorrecto {
+            color: #f44336;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ejercicio: Remarcar tiempos verbales</h1>
+    <div class="instrucciones">
+        <p>Lee el texto y haz clic en cada verbo para remarcarlo según el tiempo verbal:</p>
+        <div class="leyenda">
+            <div class="leyenda-item">
+                <div class="color-box pluscuamperfecto"></div>
+                <span>Pluscuamperfecto</span>
+            </div>
+            <div class="leyenda-item">
+                <div class="color-box perfecto-simple"></div>
+                <span>Perfecto Simple</span>
+            </div>
+            <div class="leyenda-item">
+                <div class="color-box imperfecto"></div>
+                <span>Imperfecto</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="texto-ejercicio" id="textoEjercicio">
+        <p>
+            "Nunca <span class="verbo" data-tiempo="pluscuamperfecto" data-correcto="había viajado">había viajado</span> al exterior y <span class="verbo" data-tiempo="imperfecto" data-correcto="estaba">estaba</span> feliz de compartir la experiencia con mis hermanas.
+            <span class="verbo" data-tiempo="perfecto-simple" data-correcto="Llegamos">Llegamos</span> a Iguazú temprano por la mañana, <span class="verbo" data-tiempo="perfecto-simple" data-correcto="dejamos">dejamos</span> el equipaje en el hotel y <span class="verbo" data-tiempo="perfecto-simple" data-correcto="partimos">partimos</span> para la primera excursión.
+            <span class="verbo" data-tiempo="imperfecto" data-correcto="Hacía">Hacía</span> calor y <span class="verbo" data-tiempo="imperfecto" data-correcto="había">había</span> muchos mosquitos.
+        </p>
+        <p>
+            En el camino me di cuenta de que me <span class="verbo" data-tiempo="pluscuamperfecto" data-correcto="había olvidado">había olvidado</span> la mochila en la que guardaba mi protector solar, el repelente de insectos y lo más importante: ¡mi cámara!
+            En fin, ya <span class="verbo" data-tiempo="imperfecto" data-correcto="era">era</span> tarde para regresar. Es que me <span class="verbo" data-tiempo="imperfecto" data-correcto="sentía">sentía</span> un poco nerviosa porque no sé nadar y <span class="verbo" data-tiempo="pluscuamperfecto" data-correcto="me había subido">me había subido</span> a una lancha.
+            Pero el paisaje <span class="verbo" data-tiempo="imperfecto" data-correcto="era">era</span> tan imponente que <span class="verbo" data-tiempo="perfecto-simple" data-correcto="valió">valió</span> la pena intentarlo.
+        </p>
+        <p>
+            En un momento la embarcación se acercó mucho a las cataratas. Nunca antes <span class="verbo" data-tiempo="pluscuamperfecto" data-correcto="había sentido">había sentido</span> tanta emoción. <span class="verbo" data-tiempo="imperfecto" data-correcto="Había">Había</span> muchísima agua, casi no <span class="verbo" data-tiempo="imperfecto" data-correcto="podía">podía</span> ver a los otros turistas.
+            ¡<span class="verbo" data-tiempo="imperfecto" data-correcto="Parecía">Parecía</span> que <span class="verbo" data-tiempo="pluscuamperfecto" data-correcto="hubieran desaparecido">hubieran desaparecido</span>!
+            <span class="verbo" data-tiempo="perfecto-simple" data-correcto="Estuvo">Estuvo</span> buenísimo. Fue mucho más divertido de lo que <span class="verbo" data-tiempo="pluscuamperfecto" data-correcto="había imaginado">había imaginado</span".
+        </p>
+    </div>
+
+    <button onclick="corregir()">Corregir</button>
+    <div id="resultado"></div>
+
+    <script>
+        const verbos = document.querySelectorAll('.verbo');
+        let cicloColores = {
+            'pluscuamperfecto': ['#4dd2ff', '#aaffff', '#00bfff'],
+            'perfecto-simple': ['#7cfc00', '#b3ffb3', '#32cd32'],
+            'imperfecto': ['#ff69b4', '#ffb6c1', '#ff1493']
+        };
+        let coloresSeleccionados = {
+            'pluscuamperfecto': 0,
+            'perfecto-simple': 0,
+            'imperfecto': 0
+        };
+
+        verbos.forEach(verbo => {
+            verbo.addEventListener('click', () => {
+                const tiempo = verbo.dataset.tiempo;
+                coloresSeleccionados[tiempo] = (coloresSeleccionados[tiempo] + 1) % cicloColores[tiempo].length;
+                verbo.style.backgroundColor = cicloColores[tiempo][coloresSeleccionados[tiempo]];
+                verbo.classList.add(tiempo);
+            });
+        });
+
+        function corregir() {
+            let aciertos = 0;
+            verbos.forEach(verbo => {
+                const tiempoSeleccionado = Array.from(verbo.classList).find(cls => cls.includes('pluscuamperfecto') || cls.includes('perfecto-simple') || cls.includes('imperfecto'));
+                const tiempoCorrecto = verbo.dataset.tiempo;
+                if (tiempoSeleccionado === tiempoCorrecto) {
+                    aciertos++;
+                    verbo.style.border = '2px solid #4CAF50';
+                } else {
+                    verbo.style.border = '2px solid #f44336';
+                }
+            });
+            const resultado = document.getElementById('resultado');
+            if (aciertos === verbos.length) {
+                resultado.innerHTML = `¡Excelente! Todos los verbos están correctamente remarcados.`;
+                resultado.className = 'correcto';
+            } else {
+                resultado.innerHTML = `Tienes ${aciertos} de ${verbos.length} verbos correctos. Revisa los que están marcados en rojo.`;
+                resultado.className = 'incorrecto';
+            }
+        }
+    </script>
+</body>
+</html>

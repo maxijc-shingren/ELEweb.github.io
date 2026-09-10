@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taller Interactivo: Presente e Imperfecto de Subjuntivo</title>
+    <style>
+        :root {
+            --primary-color: #2b6cb0;
+            --primary-dark: #2c5282;
+            --primary-light: #ebf8ff;
+            --border-color: #bee3f8;
+            --correct-color: #38a169;
+            --relaxed-color: #d69e2e;
+            --incorrect-color: #e53e3e;
+            --text-main: #2d3748;
+            --bg-body: #f7fafc;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px 10px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            padding: 25px 30px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            border-bottom: 4px solid var(--primary-dark);
+        }
+
+        header h1 {
+            margin: 0 0 5px 0;
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        header p {
+            margin: 0;
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .instructions {
+            font-size: 0.95rem;
+            color: #4a5568;
+            margin-bottom: 15px;
+            background: var(--primary-light);
+            padding: 12px 15px;
+            border-left: 4px solid var(--primary-color);
+            border-radius: 0 6px 6px 0;
+        }
+
+        .dialogue-box {
+            margin-bottom: 30px;
+        }
+
+        .dialogue-line {
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+        }
+
+        .speaker {
+            font-weight: bold;
+            color: var(--primary-dark);
+            margin-right: 5px;
+        }
+
+        /* Inputs interactivos */
+        input[type="text"].fill-blank {
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--primary-dark);
+            border: none;
+            border-bottom: 2px solid #a0aec0;
+            background: #edf2f7;
+            padding: 2px 8px;
+            width: 110px;
+            text-align: center;
+            border-radius: 4px 4px 0 0;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"].fill-blank:focus {
+            background: #e2e8f0;
+            border-bottom-color: var(--primary-color);
+        }
+
+        /* Feedback visual */
+        .valid-strict {
+            border-bottom-color: var(--correct-color) !important;
+            background-color: #f0fff4 !important;
+            color: #276749 !important;
+        }
+
+        .valid-relaxed {
+            border-bottom-color: var(--relaxed-color) !important;
+            background-color: #fffff0 !important;
+            color: #975a16 !important;
+        }
+
+        .invalid-input {
+            border-bottom-color: var(--incorrect-color) !important;
+            background-color: #fff5f5 !important;
+            color: #c53030 !important;
+        }
+
+        /* Nota explicativa (Rioplatense) */
+        .grammar-note {
+            display: none;
+            font-size: 0.85rem;
+            color: #975a16;
+            background-color: #fffff0;
+            border: 1px dashed #d69e2e;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-top: 8px;
+            margin-bottom: 12px;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .grammar-note.visible {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-divider {
+            height: 2px;
+            background-color: #e2e8f0;
+            margin: 35px 0;
+            position: relative;
+        }
+        
+        .section-divider::after {
+            content: "✦";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--bg-body);
+            padding: 0 10px;
+            color: #a0aec0;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Práctica de Subjuntivo: Presente e Imperfecto</h1>
+            <p>Español Lengua Extranjera / Segunda Lengua (Variante Rioplatense)</p>
+        </header>
+
+        <!-- PRIMERA PARTE -->
+        <div class="instructions">
+            <strong>12.</strong> Paco es un chico que se independizó hace poco. Su madre fue a visitarlo y le dijo algunas cosas. Conjugá los verbos de sus intervenciones en el tiempo adecuado.
+        </div>
+
+        <div class="dialogue-box">
+            <div class="dialogue-line">
+                • Paco, tu casa es un desastre. Tenés que contratar a alguien que (venir) 
+                <input type="text" class="fill-blank" data-strict="venga" autocomplete="off" spellcheck="false"> 
+                a limpiar al menos una vez por semana.
+            </div>
+            
+            <div class="dialogue-line">
+                • Paco, estás muy solo, hijo. ¿No te gustaría encontrar a alguien que te (mimar) 
+                <input type="text" class="fill-blank" data-strict="mime" autocomplete="off" spellcheck="false"> 
+                y que te (dar) 
+                <input type="text" class="fill-blank" data-strict="dé,de" autocomplete="off" spellcheck="false"> 
+                un poco de cariño?
+            </div>
+
+            <div class="dialogue-line">
+                • Paco, ¿es que nunca lavás la ropa? Tenés que comprarte uno de esos lavarropas que (consumir) 
+                <input type="text" class="fill-blank" data-strict="consuma" autocomplete="off" spellcheck="false"> 
+                poquísimo, que además ahora están muy baratos.
+            </div>
+
+            <div class="dialogue-line">
+                • Paco, qué lejos vivís. No encontré a nadie que (poder) 
+                <input type="text" class="fill-blank" data-strict="pueda" autocomplete="off" spellcheck="false"> 
+                traerme y tuve que tomarme dos colectivos.
+            </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- SEGUNDA PARTE -->
+        <div class="instructions">
+            <strong>13.</strong> Unos años después, la madre de Paco le recuerda lo duro que fue cuando empezó a vivir solo. Completá con la forma adecuada de los verbos en paréntesis.
+        </div>
+
+        <div class="dialogue-box">
+            <div class="dialogue-line">
+                <span class="speaker">Madre:</span> —Cómo cambiaste en estos últimos años, ¿eh?
+            </div>
+            <div class="dialogue-line">
+                <span class="speaker">Paco:</span> —¿Ah, sí? ¿Por qué?
+            </div>
+            
+            <div class="dialogue-line">
+                <span class="speaker">Madre:</span> —Te volviste mucho más cariñoso desde que estás con Julia. Sí, sí, ya te decía yo que tenías que encontrar a alguien que te (dar) 
+                <input type="text" class="fill-blank verb-ex13" data-strict="diera,diese" data-relaxed="dé,de" autocomplete="off" spellcheck="false"> 
+                cariño y te (mimar) 
+                <input type="text" class="fill-blank verb-ex13" data-strict="mimara,mimase" data-relaxed="mime" autocomplete="off" spellcheck="false">. 
+                No me vas a decir que ahora no estás mucho mejor.
+                <div class="grammar-note">
+                    <strong>💡 Nota sobre el uso habitual:</strong> Gramaticalmente, como el verbo introductorio está en pasado ("tenías que encontrar"), corresponde usar el <em>pretérito imperfecto del subjuntivo</em> (diera/mimara). Sin embargo, en el habla coloquial rioplatense es muy común omitir esta correlación temporal y usar el <em>presente del subjuntivo</em> (dé/mime). ¡Ambas opciones son válidas en este ejercicio!
+                </div>
+            </div>
+
+            <div class="dialogue-line">
+                <span class="speaker">Paco:</span> —Que sí, mamá...
+            </div>
+
+            <div class="dialogue-line">
+                <span class="speaker">Madre:</span> —¿Y te acordás de que vivías tan lejos que no encontraba ni un taxi que me (poder) 
+                <input type="text" class="fill-blank verb-ex13" data-strict="pudiera,pudiese" data-relaxed="pueda" autocomplete="off" spellcheck="false"> 
+                llevar?
+                <div class="grammar-note">
+                    <strong>💡 Nota sobre el uso habitual:</strong> Al igual que antes, tras el verbo en pasado ("no encontraba"), la norma culta pide <em>pudiera</em>, pero en nuestra variante oral escucharás frecuentemente <em>pueda</em>.
+                </div>
+            </div>
+
+            <div class="dialogue-line">
+                <span class="speaker">Paco:</span> —No estaba tan lejos, mamá...
+            </div>
+
+            <div class="dialogue-line">
+                <span class="speaker">Madre:</span> —Sí, sí lo estaba. Y claro, como vos no querías a nadie que (venir) 
+                <input type="text" class="fill-blank verb-ex13" data-strict="viniera,viniese" data-relaxed="venga" autocomplete="off" spellcheck="false"> 
+                a hacerte la limpieza, tenía que venir yo de vez en cuando, porque tu departamento estaba sucísimo. Y tus compañeros de depto eran un poco desordenados.
+                <div class="grammar-note">
+                    <strong>💡 Nota sobre el uso habitual:</strong> Gramaticalmente correcto: "no querías... que viniera". Uso coloquial muy extendido: "no querías... que venga". 
+                </div>
+            </div>
+
+            <div class="dialogue-line">
+                <span class="speaker">Paco:</span> —Vos venías porque querías, mamá. Y el departamento no estaba tan sucio, lo limpiábamos una vez por semana y no necesitábamos a nadie que lo (hacer) 
+                <input type="text" class="fill-blank verb-ex13" data-strict="hiciera,hiciese" data-relaxed="haga" autocomplete="off" spellcheck="false">.
+                <div class="grammar-note">
+                    <strong>💡 Nota sobre el uso habitual:</strong> Norma estricta: "no necesitábamos... que lo hiciera". Variante coloquial: "no necesitábamos... que lo haga".
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const allInputs = document.querySelectorAll('.fill-blank');
+
+            allInputs.forEach(input => {
+                input.addEventListener('input', (e) => {
+                    const val = e.target.value.trim().toLowerCase();
+                    const strictAnswers = e.target.getAttribute('data-strict').toLowerCase().split(',');
+                    
+                    // Chequear si existe el atributo data-relaxed (para el ejercicio 13)
+                    const relaxedAttr = e.target.getAttribute('data-relaxed');
+                    const relaxedAnswers = relaxedAttr ? relaxedAttr.toLowerCase().split(',') : [];
+
+                    // Buscar el contenedor de la nota gramatical más cercano
+                    const lineContainer = e.target.closest('.dialogue-line');
+                    const noteElement = lineContainer ? lineContainer.querySelector('.grammar-note') : null;
+
+                    if (val === '') {
+                        e.target.className = 'fill-blank verb-ex13';
+                        if (noteElement) noteElement.classList.remove('visible');
+                    } else if (strictAnswers.includes(val)) {
+                        // Respuesta formalmente correcta (Imperfecto de subj. o Presente en el Ej 12)
+                        e.target.className = 'fill-blank verb-ex13 valid-strict';
+                        if (noteElement) noteElement.classList.remove('visible');
+                    } else if (relaxedAnswers.includes(val)) {
+                        // Respuesta coloquial rioplatense (Presente de subj. en el Ej 13)
+                        e.target.className = 'fill-blank verb-ex13 valid-relaxed';
+                        if (noteElement) noteElement.classList.add('visible');
+                    } else {
+                        // Respuesta incorrecta
+                        e.target.className = 'fill-blank verb-ex13 invalid-input';
+                        if (noteElement) noteElement.classList.remove('visible');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

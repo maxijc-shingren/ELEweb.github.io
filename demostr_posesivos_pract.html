@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taller Interactivo: Demostrativos y Posesivos</title>
+    <style>
+        :root {
+            --primary-color: #276749;
+            --primary-dark: #1c4532;
+            --primary-light: #f0fff4;
+            --border-color: #c6f6d5;
+            --correct-color: #38a169;
+            --incorrect-color: #e53e3e;
+            --text-main: #2d3748;
+            --bg-body: #f7fafc;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px 10px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            padding: 25px 30px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-bottom: 4px solid var(--primary-dark);
+        }
+
+        header h1 {
+            margin: 0 0 5px 0;
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        header p {
+            margin: 0;
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .grammar-box {
+            background-color: var(--primary-light);
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .grammar-box h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.05rem;
+            color: var(--primary-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .grammar-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 650px) {
+            .grammar-grid { grid-template-columns: 1fr; }
+        }
+
+        .grammar-grid ul {
+            margin: 5px 0 0 18px;
+            padding: 0;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 4px;
+            margin: 25px 0 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .instructions {
+            font-style: italic;
+            font-size: 0.9rem;
+            color: #4a5568;
+            margin-bottom: 12px;
+        }
+
+        .exercise-list {
+            margin: 0;
+            padding: 0;
+            list-style-position: inside;
+        }
+
+        .exercise-item {
+            margin-bottom: 12px;
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        /* Inputs interactivos */
+        input[type="text"].fill-blank {
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--primary-dark);
+            border: none;
+            border-bottom: 2px solid #a0aec0;
+            background: #edf2f7;
+            padding: 2px 8px;
+            width: 100px;
+            text-align: center;
+            border-radius: 4px 4px 0 0;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"].fill-blank:focus {
+            background: #e2e8f0;
+            border-bottom-color: var(--primary-color);
+        }
+
+        /* Feedback visual inmediato */
+        .valid-input {
+            border-bottom-color: var(--correct-color) !important;
+            background-color: #f0fff4 !important;
+            color: #276749 !important;
+        }
+
+        .invalid-input {
+            border-bottom-color: var(--incorrect-color) !important;
+            background-color: #fff5f5 !important;
+            color: #c53030 !important;
+        }
+
+        /* Checkboxes interactivos */
+        .options-group {
+            margin: 6px 0 10px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .option-label {
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 0.95rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: background 0.15s ease;
+            width: fit-content;
+        }
+
+        .option-label:hover {
+            background: #edf2f7;
+        }
+
+        .option-label input[type="checkbox"] {
+            margin-right: 8px;
+            accent-color: var(--primary-color);
+            transform: scale(1.1);
+            cursor: pointer;
+        }
+
+        /* Nota emergente / Hover explicación */
+        .explanation-btn {
+            display: inline-block;
+            margin-left: 8px;
+            font-size: 0.8rem;
+            background: #e2e8f0;
+            color: #4a5568;
+            padding: 2px 8px;
+            border-radius: 12px;
+            cursor: pointer;
+            position: relative;
+            vertical-align: middle;
+            font-weight: 600;
+        }
+
+        .explanation-btn .tooltip {
+            visibility: hidden;
+            width: 240px;
+            background-color: #2d3748;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 8px 10px;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.2s;
+            font-size: 0.8rem;
+            font-weight: normal;
+            line-height: 1.3;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .explanation-btn:hover .tooltip,
+        .explanation-btn:focus .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Recuadro Actividad 3 */
+        .word-bank {
+            background: #edf2f7;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            border-radius: 6px;
+            letter-spacing: 1px;
+        }
+
+        .text-box {
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 6px;
+            line-height: 2.2;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        /* Interacción dos pasos (Actividad 4) */
+        .interactive-sentence {
+            margin-bottom: 14px;
+            background: #f8fafc;
+            padding: 10px 12px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .clickable-word {
+            cursor: pointer;
+            padding: 2px 4px;
+            border-radius: 3px;
+            transition: background 0.15s ease;
+        }
+
+        .clickable-word:hover {
+            background-color: #e2e8f0;
+        }
+
+        .clickable-word.selected-error {
+            background-color: #fed7d7;
+            color: #9b2c2c;
+            text-decoration: underline wavy #e53e3e;
+            font-weight: bold;
+        }
+
+        .correction-step-2 {
+            margin-top: 8px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+
+        .correction-step-2.active {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Taller Interactivo: Demostrativos y Posesivos</h1>
+            <p>Español Lengua Extranjera / Segunda Lengua — Niveles A2-B1 (Registro Rioplatense)</p>
+        </header>
+
+        <div class="grammar-box">
+            <h2>Resumen Estructural Gramatical</h2>
+            <div class="grammar-grid">
+                <div>
+                    <strong>1. Demostrativos:</strong>
+                    <ul>
+                        <li><strong>Este/a/os/as (y Ese/Aquel):</strong> Acompañan a un sustantivo o lo reemplazan. Tienen género y número. <em>("Quiero este libro" / "Me gusta esta")</em>.</li>
+                        <li><strong>Esto / Eso / Aquello (Neutros):</strong> NUNCA acompañan a un sustantivo. Refieren a ideas o cosas no identificadas. <em>("¿Qué es esto?" / "Eso no me parece bien")</em>.</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>2. Posesivos:</strong>
+                    <ul>
+                        <li><strong>Átonos (Mi, tu, su, etc.):</strong> Van antes del sustantivo. Se usan cuando la identidad está definida, es única o ya es conocida. <em>("Hoy viene mi amigo")</em>.</li>
+                        <li><strong>Tónicos (Mío, tuyo, suyo, etc.):</strong> Van después del sustantivo. Se usan con indefinidos para presentar información nueva o referirse a uno entre varios. <em>("Un amigo mío")</em>.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title">Actividad 1: Demostrativos (¿Neutro o con género?)</div>
+        <div class="instructions">Escribí en el espacio en blanco la opción correcta (<strong>este, esta, estos, estas, esto</strong>). La casilla se validará automáticamente al escribir.</div>
+
+        <ol class="exercise-list">
+            <li class="exercise-item">
+                No entiendo nada de 
+                <input type="text" class="fill-blank" data-answer="esto" autocomplete="off" spellcheck="false">. ¿Me lo podés volver a explicar?
+            </li>
+            <li class="exercise-item">
+                <input type="text" class="fill-blank" data-answer="esta,Esta" autocomplete="off" spellcheck="false"> 
+                camisa te queda mucho mejor que la azul.
+            </li>
+            <li class="exercise-item">
+                ¿Qué es 
+                <input type="text" class="fill-blank" data-answer="esto" autocomplete="off" spellcheck="false"> 
+                que encontré debajo de la cama?
+            </li>
+            <li class="exercise-item">
+                De todos los alfajores, me quedo con 
+                <input type="text" class="fill-blank" data-answer="este" autocomplete="off" spellcheck="false"> 
+                de chocolate.
+            </li>
+            <li class="exercise-item">
+                Tengo que resolver 
+                <input type="text" class="fill-blank" data-answer="esto" autocomplete="off" spellcheck="false"> 
+                antes de irme a casa, es urgente.
+            </li>
+            <li class="exercise-item">
+                <input type="text" class="fill-blank" data-answer="estos,Estos" autocomplete="off" spellcheck="false"> 
+                zapatos me aprietan un poco, me voy a probar un talle más grande.
+            </li>
+        </ol>
+
+        <div class="section-title">Actividad 2: Posesivos (Información nueva vs. conocida)</div>
+        <div class="instructions">Marcá la opción correcta con la casilla. En algunos casos, ambas opciones son válidas según el contexto; podés activar la nota aclaratoria paso a paso.</div>
+
+        <div class="exercise-list">
+            <div class="exercise-item">
+                1. — ¿Con quién fuiste al cine?<br>
+                — Fui con ________ de la universidad.
+                <div class="options-group">
+                    <label class="option-label"><input type="checkbox" class="opt-check" data-valid="true"> a) mi compañero</label>
+                    <label class="option-label"><input type="checkbox" class="opt-check" data-valid="true"> b) un compañero mío</label>
+                </div>
+                <span class="explanation-btn">Nota context
+                    <span class="tooltip">Ambas son correctas: 'un compañero mío' si se introduce por 1ª vez (info nueva); 'mi compañero' si el interlocutor ya sabe de quién se trata.</span>
+                </span>
+            </div>
+
+            <div class="exercise-item">
+                2. — Ya hablé con Juan y me confirmó que viene.<br>
+                — ¡Qué bueno! Hace mucho que no veo a ________.
+                <div class="options-group">
+                    <label class="option-label"><input type="checkbox" class="opt-check" data-valid="true"> a) tu amigo</label>
+                    <label class="option-label"><input type="checkbox" class="opt-check" data-valid="false"> b) un amigo tuyo</label>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                3. — ¿De quién es esa campera?<br>
+                — Es de ________; siempre la deja acá.
+                <div class="options-group">
+                    <label class="option-label"><input type="checkbox" class="opt-check" data-valid="false"> a) un hermano mío</label>
+                    <label class="option-label"><input type="checkbox" class="opt-check" data-valid="true"> b) mi hermano</label>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                4. — Ayer conocí a ________; me dijo que trabajan juntos en el hospital.
+                <div class="options-group">
+                    <label class="option-label"><input type="checkbox" class="opt-check" data-valid="true"> a) una colega tuya</label>
+                    <label class="option-label"><input type="checkbox" class="opt-check" data-valid="true"> b) tu colega</label>
+                </div>
+                <span class="explanation-btn">Nota context
+                    <span class="tooltip">Ambas son válidas: 'una colega tuya' (una entre varias / no mencionada antes); 'tu colega' (referente previamente conversado).</span>
+                </span>
+            </div>
+
+            <div class="exercise-item">
+                5. — Se me rompió la computadora y necesito terminar el trabajo.<br>
+                — No te preocupes, te presto ________.
+                <div class="options-group">
+                    <label class="option-label"><input type="checkbox" class="opt-check" data-valid="true"> a) mi computadora</label>
+                    <label class="option-label"><input type="checkbox" class="opt-check" data-valid="true"> b) una computadora mía</label>
+                </div>
+                <span class="explanation-btn">Nota context
+                    <span class="tooltip">Ambas son válidas: 'mi computadora' si es su única equipo; 'una computadora mía' si posee varias computadoras.</span>
+                </span>
+            </div>
+        </div>
+
+        <div class="section-title">Actividad 3: Análisis de texto contiguo</div>
+        <div class="instructions">Completá los espacios del texto eligiendo la palabra correcta del recuadro. Cuidado: sobran dos palabras.</div>
+
+        <div class="word-bank">
+            ESTO &nbsp;|&nbsp; MI &nbsp;|&nbsp; MÍO &nbsp;|&nbsp; ESTE &nbsp;|&nbsp; SU &nbsp;|&nbsp; ESTA &nbsp;|&nbsp; SUYOS
+        </div>
+
+        <div class="text-box">
+            Hoy a la tarde estoy tomando un café con un colega (1) 
+            <input type="text" class="fill-blank" data-answer="mío" style="width:75px;" autocomplete="off" spellcheck="false"> 
+            cuando, de repente, entra Laura. Hace meses que no hablo con ella sobre (2) 
+            <input type="text" class="fill-blank" data-answer="su" style="width:65px;" autocomplete="off" spellcheck="false"> 
+            proyecto de investigación. Le pregunto cómo va (3) 
+            <input type="text" class="fill-blank" data-answer="este" style="width:75px;" autocomplete="off" spellcheck="false">. 
+            Me responde que tuvo algunos problemas con unos colaboradores (4) 
+            <input type="text" class="fill-blank" data-answer="suyos" style="width:80px;" autocomplete="off" spellcheck="false">, 
+            pero que ya lo solucionó. La verdad es que (5) 
+            <input type="text" class="fill-blank" data-answer="esta" style="width:75px;" autocomplete="off" spellcheck="false"> 
+            chica siempre me sorprende con su capacidad para resolver conflictos.
+        </div>
+
+        <div class="section-title">Actividad 4: Corrección de errores en dos pasos</div>
+        <div class="instructions"><strong>Paso 1:</strong> Hacé clic sobre la palabra incorrecta de la oración para marcarla. <br><strong>Paso 2:</strong> Escribí la palabra corregida en el campo que se desplegará abajo.</div>
+
+        <div class="interactive-sentence" data-correct-word="ese" data-target-fix="eso">
+            <div>1. <span class="clickable-word">¿Qué</span> <span class="clickable-word">es</span> <span class="clickable-word" data-is-error="true">ese</span> <span class="clickable-word">que</span> <span class="clickable-word">tenés</span> <span class="clickable-word">en</span> <span class="clickable-word">la</span> <span class="clickable-word">mano?</span></div>
+            <div class="correction-step-2">
+                <span>Escribí la forma correcta:</span>
+                <input type="text" class="fill-blank step2-input" data-answer="eso" autocomplete="off" spellcheck="false">
+            </div>
+        </div>
+
+        <div class="interactive-sentence" data-correct-word="el amigo mío" data-target-fix="un amigo mío,mi amigo">
+            <div>2. <span class="clickable-word">Ayer</span> <span class="clickable-word">salí</span> <span class="clickable-word">a</span> <span class="clickable-word">cenar</span> <span class="clickable-word">con</span> <span class="clickable-word" data-is-error="true">el amigo mío</span>.</div>
+            <div class="correction-step-2">
+                <span>Escribí la forma correcta (ej. "un amigo mío" / "mi amigo"):</span>
+                <input type="text" class="fill-blank step2-input" data-answer="un amigo mío,mi amigo" style="width:140px;" autocomplete="off" spellcheck="false">
+            </div>
+        </div>
+
+        <div class="interactive-sentence" data-correct-word="Esto" data-target-fix="Este,este">
+            <div>3. <span class="clickable-word" data-is-error="true">Esto</span> <span class="clickable-word">problema</span> <span class="clickable-word">tiene</span> <span class="clickable-word">una</span> <span class="clickable-word">solución</span> <span class="clickable-word">fácil.</span></div>
+            <div class="correction-step-2">
+                <span>Escribí la forma correcta:</span>
+                <input type="text" class="fill-blank step2-input" data-answer="Este,este" autocomplete="off" spellcheck="false">
+            </div>
+        </div>
+
+        <div class="interactive-sentence" data-correct-word="la mi compañera" data-target-fix="mi compañera,una compañera mía">
+            <div>4. <span class="clickable-word">Voy</span> <span class="clickable-word">a</span> <span class="clickable-word">presentarles</span> <span class="clickable-word">a</span> <span class="clickable-word" data-is-error="true">la mi compañera</span> <span class="clickable-word">de</span> <span class="clickable-word">departamento.</span></div>
+            <div class="correction-step-2">
+                <span>Escribí la forma correcta:</span>
+                <input type="text" class="fill-blank step2-input" data-answer="mi compañera,una compañera mía" style="width:160px;" autocomplete="off" spellcheck="false">
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Actividad 1 y 3: Validación de campos de texto inmediatos
+            const fillInputs = document.querySelectorAll('.fill-blank');
+
+            fillInputs.forEach(input => {
+                input.addEventListener('input', (e) => {
+                    const val = e.target.value.trim();
+                    const acceptedAnswers = e.target.getAttribute('data-answer').split(',');
+
+                    if (val === '') {
+                        e.target.classList.remove('valid-input', 'invalid-input');
+                    } else if (acceptedAnswers.some(ans => ans.toLowerCase() === val.toLowerCase())) {
+                        e.target.classList.add('valid-input');
+                        e.target.classList.remove('invalid-input');
+                    } else {
+                        e.target.classList.add('invalid-input');
+                        e.target.classList.remove('valid-input');
+                    }
+                });
+            });
+
+            // Actividad 2: Checkboxes interactivos con feedback inmediato
+            const checkboxes = document.querySelectorAll('.opt-check');
+
+            checkboxes.forEach(chk => {
+                chk.addEventListener('change', (e) => {
+                    const label = e.target.closest('.option-label');
+                    const isValid = e.target.getAttribute('data-valid') === 'true';
+
+                    if (e.target.checked) {
+                        if (isValid) {
+                            label.style.color = '#276749';
+                            label.style.fontWeight = 'bold';
+                            label.style.background = '#f0fff4';
+                        } else {
+                            label.style.color = '#c53030';
+                            label.style.fontWeight = 'bold';
+                            label.style.background = '#fff5f5';
+                        }
+                    } else {
+                        label.style.color = '';
+                        label.style.fontWeight = 'normal';
+                        label.style.background = '';
+                    }
+                });
+            });
+
+            // Actividad 4: Interacción en dos pasos (clic en palabra + escritura)
+            const sentences = document.querySelectorAll('.interactive-sentence');
+
+            sentences.forEach(sentence => {
+                const words = sentence.querySelectorAll('.clickable-word');
+                const step2 = sentence.querySelector('.correction-step-2');
+
+                words.forEach(word => {
+                    word.addEventListener('click', () => {
+                        // Desmarcar otras palabras de la misma oración
+                        words.forEach(w => w.classList.remove('selected-error'));
+                        
+                        word.classList.add('selected-error');
+
+                        // Si hace clic en la palabra errónea correcta
+                        if (word.getAttribute('data-is-error') === 'true') {
+                            step2.classList.add('active');
+                        } else {
+                            step2.classList.remove('active');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

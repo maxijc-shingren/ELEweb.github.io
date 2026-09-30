@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saludos y Frases Básicas en Español</title>
+  <style>
+    :root {
+      --primary: #3182ce;
+      --primary-dark: #2b6cb0;
+      --primary-light: #ebf8ff;
+      --accent: #dd6b20;
+      --bg-main: #f7fafc;
+      --card-bg: #ffffff;
+      --text-color: #2d3748;
+      --border-color: #e2e8f0;
+      --person-a: #2b6cb0;
+      --person-b: #276749;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      color: var(--primary-dark);
+      margin-bottom: 6px;
+    }
+
+    header p {
+      font-size: 1rem;
+      color: #4a5568;
+    }
+
+    .main-container {
+      width: 100%;
+      max-width: 800px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      padding: 25px;
+    }
+
+    /* Tabs / View Switcher */
+    .nav-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 25px;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 10px;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      padding: 10px 18px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #718096;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .tab-btn.active {
+      background-color: var(--primary-light);
+      color: var(--primary-dark);
+    }
+
+    /* SECTION 1: FLASHCARDS */
+    .flashcard-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      background-color: #edf2f7;
+      height: 8px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 10%;
+      background-color: var(--primary);
+      transition: width 0.3s ease;
+    }
+
+    .card-counter {
+      font-size: 0.9rem;
+      color: #718096;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    .flashcard {
+      width: 100%;
+      max-width: 450px;
+      height: 220px;
+      background-color: var(--card-bg);
+      border: 2px solid var(--primary);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(49, 130, 206, 0.15);
+      position: relative;
+      transition: transform 0.2s;
+    }
+
+    .flashcard:hover {
+      transform: translateY(-2px);
+    }
+
+    .card-phrase {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 10px;
+    }
+
+    .card-meta {
+      font-size: 0.95rem;
+      color: #718096;
+      font-style: italic;
+    }
+
+    .audio-btn {
+      background: var(--primary-light);
+      border: 1px solid var(--primary);
+      color: var(--primary-dark);
+      padding: 6px 12px;
+      border-radius: 20px;
+      margin-top: 15px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: background 0.2s;
+    }
+
+    .audio-btn:hover {
+      background: #d6bcfa;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 450px;
+      margin-top: 25px;
+    }
+
+    .btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .btn:disabled {
+      background-color: #cbd5e0;
+      cursor: not-allowed;
+    }
+
+    .finish-notice {
+      margin-top: 20px;
+      padding: 12px;
+      background: #c6f6d5;
+      color: #22543d;
+      border-radius: 6px;
+      font-weight: 600;
+      display: none;
+      text-align: center;
+    }
+
+    /* SECTION 2: DIALOGUE BUILDER */
+    .dialogue-section {
+      display: none;
+    }
+
+    .speaker-selector {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .speaker-btn {
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 2px solid transparent;
+      font-weight: bold;
+      cursor: pointer;
+      background: #edf2f7;
+      color: #4a5568;
+    }
+
+    .speaker-btn.active-a {
+      background: var(--primary-light);
+      border-color: var(--person-a);
+      color: var(--person-a);
+    }
+
+    .speaker-btn.active-b {
+      background: #f0fff4;
+      border-color: var(--person-b);
+      color: var(--person-b);
+    }
+
+    .mini-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+
+    .mini-card {
+      background: #f7fafc;
+      border: 1px solid #cbd5e0;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 60px;
+    }
+
+    .mini-card:hover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      transform: translateY(-2px);
+    }
+
+    .dialogue-board {
+      background: #f7fafc;
+      border: 2px dashed #cbd5e0;
+      border-radius: 8px;
+      padding: 20px;
+      min-height: 180px;
+      margin-bottom: 20px;
+    }
+
+    .dialogue-empty {
+      color: #a0aec0;
+      text-align: center;
+      margin-top: 60px;
+      font-style: italic;
+    }
+
+    .dialogue-line {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      animation: fadeIn 0.3s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .dialogue-line.person-a {
+      justify-content: flex-start;
+    }
+
+    .dialogue-line.person-b {
+      justify-content: flex-end;
+    }
+
+    .bubble {
+      max-width: 75%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .person-a .bubble {
+      background-color: var(--primary-light);
+      color: var(--person-a);
+      border-bottom-left-radius: 2px;
+      border: 1px solid #bee3f8;
+    }
+
+    .person-b .bubble {
+      background-color: #f0fff4;
+      color: var(--person-b);
+      border-bottom-right-radius: 2px;
+      border: 1px solid #c6f6d5;
+    }
+
+    .speaker-label {
+      font-size: 0.75rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+
+    .remove-line {
+      background: none;
+      border: none;
+      color: #a0aec0;
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 0 4px;
+      line-height: 1;
+    }
+
+    .remove-line:hover {
+      color: #e53e3e;
+    }
+
+    .dialogue-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .btn-secondary {
+      background: #edf2f7;
+      color: #4a5568;
+      border: 1px solid #cbd5e0;
+    }
+
+    .btn-secondary:hover {
+      background: #e2e8f0;
+    }
+
+    @media (max-width: 600px) {
+      .mini-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .card-phrase {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Primeros Saludos y Frases</h1>
+    <p>Español Inicial (A1)</p>
+  </header>
+
+  <div class="main-container">
+    
+    <!-- TABS -->
+    <div class="nav-tabs">
+      <button class="tab-btn active" id="tab-cards" onclick="switchTab('cards')">🎴 Tarjetas de estudio</button>
+      <button class="tab-btn" id="tab-dialogue" onclick="switchTab('dialogue')">💬 Creador de diálogo</button>
+    </div>
+
+    <!-- SECCIÓN 1: TARJETAS -->
+    <div class="flashcard-section" id="section-cards">
+      
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+
+      <div class="card-counter" id="card-counter">Tarjeta 1 de 10</div>
+
+      <div class="flashcard">
+        <div class="card-phrase" id="card-phrase">Hola, ¿qué tal?</div>
+        <div class="card-meta" id="card-meta">Saludo informal habitual</div>
+        <button class="audio-btn" onclick="playAudio()">🔊 Escuchar pronunciación</button>
+      </div>
+
+      <div class="controls">
+        <button class="btn btn-secondary" id="btn-prev" onclick="changeCard(-1)" disabled>Anterior</button>
+        <button class="btn" id="btn-next" onclick="changeCard(1)">Siguiente</button>
+      </div>
+
+      <div class="finish-notice" id="finish-notice">
+        ¡Llegaste al final de las tarjetas! Ya podés avanzar a la pestaña <strong>"Creador de diálogo"</strong> para practicar.
+      </div>
+    </div>
+
+    <!-- SECCIÓN 2: CREADOR DE DIÁLOGO -->
+    <div class="dialogue-section" id="section-dialogue">
+      
+      <p style="font-size: 0.95rem; color: #4a5568; margin-bottom: 15px; text-align: center;">
+        Elegí el emisor (<strong>Persona A</strong> o <strong>Persona B</strong>) y hace clic en las frases para construir tu conversación:
+      </p>
+
+      <div class="speaker-selector">
+        <button class="speaker-btn active-a" id="speaker-a-btn" onclick="setSpeaker('A')">👤 Persona A</button>
+        <button class="speaker-btn" id="speaker-b-btn" onclick="setSpeaker('B')">👤 Persona B</button>
+      </div>
+
+      <!-- Tarjetas chicas disponibles -->
+      <div class="mini-cards-grid" id="mini-cards-container">
+        <!-- Generado dinámicamente -->
+      </div>
+
+      <h3 style="font-size: 1rem; color: #4a5568; margin-bottom: 10px;">Diálogo construido:</h3>
+      
+      <div class="dialogue-board" id="dialogue-board">
+        <div class="dialogue-empty" id="dialogue-empty">
+          Haz clic en las frases de arriba para agregar renglones al diálogo.
+        </div>
+      </div>
+
+      <div class="dialogue-actions">
+        <button class="btn btn-secondary" onclick="clearDialogue()">Borrar todo</button>
+        <button class="btn" onclick="playDialogue()">▶ Escuchar diálogo</button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    const cardsData = [
+      { phrase: "Hola, ¿qué tal?", meta: "Saludo informal general" },
+      { phrase: "Buen día / Buenos días", meta: "Saludo matutino (mañana)" },
+      { phrase: "Buenas tardes", meta: "Saludo vespertino (tarde)" },
+      { phrase: "Buenas noches", meta: "Saludo nocturno / despedida" },
+      { phrase: "¿Cómo estás?", meta: "Pregunta por el estado de ánimo o salud" },
+      { phrase: "¿Cómo te llamás?", meta: "Pregunta por el nombre (voseo)" },
+      { phrase: "Un gusto / Mucho gusto", meta: "Expresión para presentarse" },
+      { phrase: "Gracias", meta: "Expresión de agradecimiento" },
+      { phrase: "Perdón / Disculpá", meta: "Para pedir disculpas o llamar la atención" },
+      { phrase: "Chau, hasta luego", meta: "Despedida habitual" }
+    ];
+
+    let currentIndex = 0;
+    let currentSpeaker = 'A';
+    let dialogueLines = [];
+
+    // Cargar interfaz de tarjetas
+    function renderCard() {
+      const card = cardsData[currentIndex];
+      document.getElementById('card-phrase').innerText = card.phrase;
+      document.getElementById('card-meta').innerText = card.meta;
+      document.getElementById('card-counter').innerText = `Tarjeta ${currentIndex + 1} de ${cardsData.length}`;
+      
+      const progressPercent = ((currentIndex + 1) / cardsData.length) * 100;
+      document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+
+      document.getElementById('btn-prev').disabled = (currentIndex === 0);
+      
+      const nextBtn = document.getElementById('btn-next');
+      if (currentIndex === cardsData.length - 1) {
+        nextBtn.innerText = "Ir al creador";
+      } else {
+        nextBtn.innerText = "Siguiente";
+      }
+    }
+
+    function changeCard(direction) {
+      if (direction === 1 && currentIndex === cardsData.length - 1) {
+        switchTab('dialogue');
+        document.getElementById('finish-notice').style.display = 'block';
+        return;
+      }
+      
+      currentIndex += direction;
+      if (currentIndex < 0) currentIndex = 0;
+      if (currentIndex >= cardsData.length) currentIndex = cardsData.length - 1;
+      
+      renderCard();
+    }
+
+    function playAudio(textToSpeak) {
+      const text = textToSpeak || cardsData[currentIndex].phrase;
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'es-AR'; // preferencia por variante rioplatense si está disponible
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+
+    // Cambiar Pestañas
+    function switchTab(tab) {
+      const cardsTabBtn = document.getElementById('tab-cards');
+      const dialogueTabBtn = document.getElementById('tab-dialogue');
+      const cardsSec = document.getElementById('section-cards');
+      const dialogueSec = document.getElementById('section-dialogue');
+
+      if (tab === 'cards') {
+        cardsTabBtn.classList.add('active');
+        dialogueTabBtn.classList.remove('active');
+        cardsSec.style.display = 'flex';
+        dialogueSec.style.display = 'none';
+      } else {
+        dialogueTabBtn.classList.add('active');
+        cardsTabBtn.classList.remove('active');
+        cardsSec.style.display = 'none';
+        dialogueSec.style.display = 'block';
+      }
+    }
+
+    // Renderizar Mini-Tarjetas en el Creador de Diálogos
+    function renderMiniCards() {
+      const container = document.getElementById('mini-cards-container');
+      container.innerHTML = '';
+      
+      cardsData.forEach((item) => {
+        const div = document.createElement('div');
+        div.className = 'mini-card';
+        div.innerText = item.phrase;
+        div.onclick = () => addDialogueLine(item.phrase);
+        container.appendChild(div);
+      });
+    }
+
+    function setSpeaker(speaker) {
+      currentSpeaker = speaker;
+      const btnA = document.getElementById('speaker-a-btn');
+      const btnB = document.getElementById('speaker-b-btn');
+
+      if (speaker === 'A') {
+        btnA.className = 'speaker-btn active-a';
+        btnB.className = 'speaker-btn';
+      } else {
+        btnA.className = 'speaker-btn';
+        btnB.className = 'speaker-btn active-b';
+      }
+    }
+
+    function addDialogueLine(phrase) {
+      dialogueLines.push({
+        speaker: currentSpeaker,
+        phrase: phrase
+      });
+
+      // Alternar automáticamente emisor para dinamismo
+      setSpeaker(currentSpeaker === 'A' ? 'B' : 'A');
+      
+      renderDialogueBoard();
+    }
+
+    function removeDialogueLine(index) {
+      dialogueLines.splice(index, 1);
+      renderDialogueBoard();
+    }
+
+    function clearDialogue() {
+      dialogueLines = [];
+      renderDialogueBoard();
+    }
+
+    function renderDialogueBoard() {
+      const board = document.getElementById('dialogue-board');
+      
+      if (dialogueLines.length === 0) {
+        board.innerHTML = `<div class="dialogue-empty">Haz clic en las frases de arriba para agregar renglones al diálogo.</div>`;
+        return;
+      }
+
+      board.innerHTML = '';
+      dialogueLines.forEach((line, idx) => {
+        const lineDiv = document.createElement('div');
+        lineDiv.className = `dialogue-line ${line.speaker === 'A' ? 'person-a' : 'person-b'}`;
+        
+        lineDiv.innerHTML = `
+          <div class="bubble">
+            <div>
+              <div class="speaker-label">Persona ${line.speaker}</div>
+              ${line.phrase}
+            </div>
+            <button class="remove-line" onclick="removeDialogueLine(${idx})" title="Eliminar frase">×</button>
+          </div>
+        `;
+        
+        board.appendChild(lineDiv);
+      });
+    }
+
+    function playDialogue() {
+      if (dialogueLines.length === 0) return;
+      if (!('speechSynthesis' in window)) return;
+
+      window.speechSynthesis.cancel();
+
+      let i = 0;
+      function speakNext() {
+        if (i >= dialogueLines.length) return;
+        
+        const line = dialogueLines[i];
+        const utterance = new SpeechSynthesisUtterance(line.phrase);
+        utterance.lang = 'es-AR';
+        
+        // Cambiar levemente el tono entre A y B
+        utterance.pitch = line.speaker === 'A' ? 1.0 : 1.2;
+        
+        utterance.onend = () => {
+          i++;
+          setTimeout(speakNext, 300);
+        };
+        
+        window.speechSynthesis.speak(utterance);
+      }
+
+      speakNext();
+    }
+
+    // Inicialización
+    renderCard();
+    renderMiniCards();
+  </script>
+</body>
+</html>

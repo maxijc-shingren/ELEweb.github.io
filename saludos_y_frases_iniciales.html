@@ -101,7 +101,7 @@
 
     .progress-bar {
       height: 100%;
-      width: 10%;
+      width: 8.33%;
       background-color: var(--primary);
       transition: width 0.3s ease;
     }
@@ -369,6 +369,15 @@
       background: #e2e8f0;
     }
 
+    footer {
+      margin-top: auto;
+      padding-top: 30px;
+      padding-bottom: 10px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #718096;
+    }
+
     @media (max-width: 600px) {
       .mini-cards-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -401,11 +410,11 @@
         <div class="progress-bar" id="progress-bar"></div>
       </div>
 
-      <div class="card-counter" id="card-counter">Tarjeta 1 de 10</div>
+      <div class="card-counter" id="card-counter">Tarjeta 1 de 12</div>
 
       <div class="flashcard">
         <div class="card-phrase" id="card-phrase">Hola, ¿qué tal?</div>
-        <div class="card-meta" id="card-meta">Saludo informal habitual</div>
+        <div class="card-meta" id="card-meta">Saludo informal general</div>
         <button class="audio-btn" onclick="playAudio()">🔊 Escuchar pronunciación</button>
       </div>
 
@@ -453,6 +462,10 @@
 
   </div>
 
+  <footer>
+    Contenido de Ruspanski Arg - 2026
+  </footer>
+
   <script>
     const cardsData = [
       { phrase: "Hola, ¿qué tal?", meta: "Saludo informal general" },
@@ -461,8 +474,10 @@
       { phrase: "Buenas noches", meta: "Saludo nocturno / despedida" },
       { phrase: "¿Cómo estás?", meta: "Pregunta por el estado de ánimo o salud" },
       { phrase: "¿Cómo te llamás?", meta: "Pregunta por el nombre (voseo)" },
+      { phrase: "Me llamo...", meta: "Para decir el propio nombre" },
+      { phrase: "Mi nombre es...", meta: "Para decir el propio nombre" },
       { phrase: "Un gusto / Mucho gusto", meta: "Expresión para presentarse" },
-      { phrase: "Gracias", meta: "Expresión de agradecimiento" },
+      { phrase: "Todo bien, gracias", meta: "Respuesta habitual y agradecimiento" },
       { phrase: "Perdón / Disculpá", meta: "Para pedir disculpas o llamar la atención" },
       { phrase: "Chau, hasta luego", meta: "Despedida habitual" }
     ];
@@ -510,7 +525,7 @@
       if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'es-AR'; // preferencia por variante rioplatense si está disponible
+        utterance.lang = 'es-AR';
         window.speechSynthesis.speak(utterance);
       }
     }
@@ -626,7 +641,6 @@
         const utterance = new SpeechSynthesisUtterance(line.phrase);
         utterance.lang = 'es-AR';
         
-        // Cambiar levemente el tono entre A y B
         utterance.pitch = line.speaker === 'A' ? 1.0 : 1.2;
         
         utterance.onend = () => {

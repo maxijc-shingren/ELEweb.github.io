@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fechas, Días, Meses y Estaciones en Español</title>
+  <style>
+    :root {
+      --primary: #2b6cb0;
+      --primary-dark: #1c4532;
+      --primary-light: #ebf8ff;
+      --accent: #dd6b20;
+      --correct: #38a169;
+      --incorrect: #e53e3e;
+      --bg-main: #f7fafc;
+      --card-bg: #ffffff;
+      --text-color: #2d3748;
+      --border-color: #e2e8f0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      line-height: 1.5;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    header p {
+      font-size: 1rem;
+      color: #4a5568;
+    }
+
+    .main-container {
+      width: 100%;
+      max-width: 800px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      padding: 25px;
+    }
+
+    .instructions-box {
+      background: var(--primary-light);
+      border-left: 4px solid var(--primary);
+      padding: 12px 16px;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 25px;
+      font-size: 0.95rem;
+      color: #2c5282;
+    }
+
+    .exercise-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      transition: border-color 0.2s;
+    }
+
+    .exercise-card:hover {
+      border-color: #cbd5e0;
+    }
+
+    .exercise-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    @media (max-width: 600px) {
+      .exercise-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    .visual-badge {
+      flex-shrink: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Estilos para Calendarios SVG / Iconos */
+    .calendar-svg {
+      width: 90px;
+      height: 90px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    }
+
+    .season-icon-box {
+      width: 90px;
+      height: 90px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-weight: bold;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .winter-box { background: linear-gradient(135deg, #63b3ed, #3182ce); }
+    .summer-box { background: linear-gradient(135deg, #f6ad55, #dd6b20); }
+    .spring-box { background: linear-gradient(135deg, #68d391, #38a169); }
+
+    .exercise-body {
+      flex-grow: 1;
+      font-size: 1.1rem;
+      color: #2d3748;
+      line-height: 2;
+    }
+
+    /* Inputs de texto */
+    input[type="text"].blank-input {
+      font-family: inherit;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--primary);
+      border: none;
+      border-bottom: 2.5px solid #a0aec0;
+      background: #edf2f7;
+      padding: 3px 8px;
+      text-align: center;
+      border-radius: 4px 4px 0 0;
+      outline: none;
+      transition: all 0.2s;
+      margin: 0 4px;
+    }
+
+    input[type="text"].blank-input:focus {
+      background: #e2e8f0;
+      border-bottom-color: var(--primary);
+    }
+
+    .input-sm { width: 90px; }
+    .input-md { width: 140px; }
+    .input-lg { width: 230px; }
+
+    /* Clases de validación */
+    .valid-input {
+      border-bottom-color: var(--correct) !important;
+      background-color: #f0fff4 !important;
+      color: #276749 !important;
+    }
+
+    .invalid-input {
+      border-bottom-color: var(--incorrect) !important;
+      background-color: #fff5f5 !important;
+      color: #c53030 !important;
+    }
+
+    /* Botones de acción */
+    .actions-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 25px;
+      padding-top: 15px;
+      border-top: 2px solid var(--border-color);
+    }
+
+    .btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn:hover {
+      background-color: #2b6cb0;
+    }
+
+    .btn-secondary {
+      background: #edf2f7;
+      color: #4a5568;
+      border: 1px solid #cbd5e0;
+    }
+
+    .btn-secondary:hover {
+      background: #e2e8f0;
+    }
+
+    .score-badge {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #2d3748;
+    }
+
+    footer {
+      margin-top: 30px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #718096;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Fechas, Días, Meses y Estaciones</h1>
+    <p>Práctica interactiva de vocabulario y expresiones en español (A1-A2)</p>
+  </header>
+
+  <div class="main-container">
+    
+    <div class="instructions-box">
+      📌 <strong>Instrucciones:</strong> Observá la imagen de referencia en cada oración y completá las palabras que faltan. Las respuestas se validan automáticamente al escribir o podés presionar <strong>"Verificar todo"</strong>.
+    </div>
+
+    <!-- EJERCICIO 1 -->
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="visual-badge">
+          <!-- Calendario 14 NOV -->
+          <svg class="calendar-svg" viewBox="0 0 100 100">
+            <rect x="5" y="15" width="90" height="80" rx="10" fill="#ffffff" stroke="#cbd5e0" stroke-width="3"/>
+            <path d="M 5 25 C 5 18, 12 15, 18 15 L 82 15 C 88 15, 95 18, 95 25 L 95 40 L 5 40 Z" fill="#e53e3e"/>
+            <circle cx="30" cy="12" r="4" fill="#a0aec0"/>
+            <circle cx="70" cy="12" r="4" fill="#a0aec0"/>
+            <text x="50" y="32" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">NOV</text>
+            <text x="50" y="78" font-size="36" font-weight="bold" fill="#2d3748" text-anchor="middle">14</text>
+          </svg>
+        </div>
+        <div class="exercise-body">
+          1. Mi cumpleaños es 
+          <input type="text" class="blank-input input-sm" data-answers="el 14" placeholder="día" autocomplete="off" spellcheck="false"> 
+          de 
+          <input type="text" class="blank-input input-md" data-answers="noviembre" placeholder="mes" autocomplete="off" spellcheck="false">.
+        </div>
+      </div>
+    </div>
+
+    <!-- EJERCICIO 2 -->
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="visual-badge">
+          <!-- Icono Nieve / Invierno -->
+          <div class="season-icon-box winter-box">
+            <span style="font-size: 2.2rem;">❄️</span>
+            <span style="font-size: 0.75rem; text-transform: uppercase; margin-top: 2px;">Nieve</span>
+          </div>
+        </div>
+        <div class="exercise-body">
+          2. En 
+          <input type="text" class="blank-input input-md" data-answers="invierno,el invierno" placeholder="estación" autocomplete="off" spellcheck="false">, 
+          mucha gente va a esquiar a Bariloche.
+        </div>
+      </div>
+    </div>
+
+    <!-- EJERCICIO 3 -->
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="visual-badge">
+          <!-- Calendario LUN 12 OCT -->
+          <svg class="calendar-svg" viewBox="0 0 100 100">
+            <rect x="5" y="15" width="90" height="80" rx="10" fill="#ffffff" stroke="#cbd5e0" stroke-width="3"/>
+            <path d="M 5 25 C 5 18, 12 15, 18 15 L 82 15 C 88 15, 95 18, 95 25 L 95 40 L 5 40 Z" fill="#3182ce"/>
+            <circle cx="30" cy="12" r="4" fill="#a0aec0"/>
+            <circle cx="70" cy="12" r="4" fill="#a0aec0"/>
+            <text x="50" y="32" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">LUN • OCT</text>
+            <text x="50" y="78" font-size="36" font-weight="bold" fill="#2d3748" text-anchor="middle">12</text>
+          </svg>
+        </div>
+        <div class="exercise-body">
+          3. Hoy es 
+          <input type="text" class="blank-input input-lg" data-answers="lunes 12 de octubre,lunes 12" placeholder="día y fecha" autocomplete="off" spellcheck="false">.
+        </div>
+      </div>
+    </div>
+
+    <!-- EJERCICIO 4 -->
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="visual-badge">
+          <!-- Icono Calendario / Días -->
+          <svg class="calendar-svg" viewBox="0 0 100 100">
+            <rect x="5" y="15" width="90" height="80" rx="10" fill="#ffffff" stroke="#cbd5e0" stroke-width="3"/>
+            <path d="M 5 25 C 5 18, 12 15, 18 15 L 82 15 C 88 15, 95 18, 95 25 L 95 40 L 5 40 Z" fill="#38a169"/>
+            <circle cx="30" cy="12" r="4" fill="#a0aec0"/>
+            <circle cx="70" cy="12" r="4" fill="#a0aec0"/>
+            <text x="50" y="32" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">VIERNES</text>
+            <text x="50" y="72" font-size="28" font-weight="bold" fill="#38a169" text-anchor="middle">AYER</text>
+          </svg>
+        </div>
+        <div class="exercise-body">
+          4. Si ayer fue viernes, hoy es 
+          <input type="text" class="blank-input input-md" data-answers="sábado,sabado" placeholder="día de hoy" autocomplete="off" spellcheck="false"> 
+          y mañana es 
+          <input type="text" class="blank-input input-md" data-answers="domingo" placeholder="día de mañana" autocomplete="off" spellcheck="false">.
+        </div>
+      </div>
+    </div>
+
+    <!-- EJERCICIO 5 -->
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="visual-badge">
+          <!-- Icono Primavera -->
+          <div class="season-icon-box spring-box">
+            <span style="font-size: 2.2rem;">🌸</span>
+            <span style="font-size: 0.75rem; text-transform: uppercase; margin-top: 2px;">Flores</span>
+          </div>
+        </div>
+        <div class="exercise-body">
+          5. En Argentina, la 
+          <input type="text" class="blank-input input-md" data-answers="primavera,la primavera" placeholder="estación" autocomplete="off" spellcheck="false"> 
+          empieza en el mes de 
+          <input type="text" class="blank-input input-md" data-answers="septiembre,setiembre" placeholder="mes" autocomplete="off" spellcheck="false">.
+        </div>
+      </div>
+    </div>
+
+    <!-- EJERCICIO 6 -->
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="visual-badge">
+          <!-- Icono Sol / Verano -->
+          <div class="season-icon-box summer-box">
+            <span style="font-size: 2.2rem;">☀️</span>
+            <span style="font-size: 0.75rem; text-transform: uppercase; margin-top: 2px;">Calor</span>
+          </div>
+        </div>
+        <div class="exercise-body">
+          6. En 
+          <input type="text" class="blank-input input-md" data-answers="verano,el verano" placeholder="estación" autocomplete="off" spellcheck="false"> 
+          hace mucho calor y nos gusta ir a la pileta.
+        </div>
+      </div>
+    </div>
+
+    <!-- EJERCICIO 7 -->
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="visual-badge">
+          <!-- Calendario 1 ENE -->
+          <svg class="calendar-svg" viewBox="0 0 100 100">
+            <rect x="5" y="15" width="90" height="80" rx="10" fill="#ffffff" stroke="#cbd5e0" stroke-width="3"/>
+            <path d="M 5 25 C 5 18, 12 15, 18 15 L 82 15 C 88 15, 95 18, 95 25 L 95 40 L 5 40 Z" fill="#dd6b20"/>
+            <circle cx="30" cy="12" r="4" fill="#a0aec0"/>
+            <circle cx="70" cy="12" r="4" fill="#a0aec0"/>
+            <text x="50" y="32" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">ENE</text>
+            <text x="50" y="78" font-size="38" font-weight="bold" fill="#2d3748" text-anchor="middle">1</text>
+          </svg>
+        </div>
+        <div class="exercise-body">
+          7. El Año Nuevo se celebra el 
+          <input type="text" class="blank-input input-sm" data-answers="primero,1º,1.º" placeholder="día" autocomplete="off" spellcheck="false"> 
+          de 
+          <input type="text" class="blank-input input-md" data-answers="enero" placeholder="mes" autocomplete="off" spellcheck="false">.
+        </div>
+      </div>
+    </div>
+
+    <!-- EJERCICIO 8 (Día del Trabajador) -->
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="visual-badge">
+          <!-- Calendario 1 MAY -->
+          <svg class="calendar-svg" viewBox="0 0 100 100">
+            <rect x="5" y="15" width="90" height="80" rx="10" fill="#ffffff" stroke="#cbd5e0" stroke-width="3"/>
+            <path d="M 5 25 C 5 18, 12 15, 18 15 L 82 15 C 88 15, 95 18, 95 25 L 95 40 L 5 40 Z" fill="#319795"/>
+            <circle cx="30" cy="12" r="4" fill="#a0aec0"/>
+            <circle cx="70" cy="12" r="4" fill="#a0aec0"/>
+            <text x="50" y="32" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">MAY</text>
+            <text x="50" y="78" font-size="38" font-weight="bold" fill="#2d3748" text-anchor="middle">1</text>
+          </svg>
+        </div>
+        <div class="exercise-body">
+          8. El Día del Trabajador se celebra el 
+          <input type="text" class="blank-input input-sm" data-answers="primero,1º,1.º" placeholder="día" autocomplete="off" spellcheck="false"> 
+          de 
+          <input type="text" class="blank-input input-md" data-answers="mayo" placeholder="mes" autocomplete="off" spellcheck="false">.
+        </div>
+      </div>
+    </div>
+
+    <!-- EJERCICIO 9 (Navidad) -->
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="visual-badge">
+          <!-- Calendario 25 DIC -->
+          <svg class="calendar-svg" viewBox="0 0 100 100">
+            <rect x="5" y="15" width="90" height="80" rx="10" fill="#ffffff" stroke="#cbd5e0" stroke-width="3"/>
+            <path d="M 5 25 C 5 18, 12 15, 18 15 L 82 15 C 88 15, 95 18, 95 25 L 95 40 L 5 40 Z" fill="#c53030"/>
+            <circle cx="30" cy="12" r="4" fill="#a0aec0"/>
+            <circle cx="70" cy="12" r="4" fill="#a0aec0"/>
+            <text x="50" y="32" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">DIC</text>
+            <text x="50" y="78" font-size="36" font-weight="bold" fill="#2d3748" text-anchor="middle">25</text>
+          </svg>
+        </div>
+        <div class="exercise-body">
+          9. La Navidad es 
+          <input type="text" class="blank-input input-sm" data-answers="el 25" placeholder="día" autocomplete="off" spellcheck="false"> 
+          de 
+          <input type="text" class="blank-input input-md" data-answers="diciembre" placeholder="mes" autocomplete="off" spellcheck="false">.
+        </div>
+      </div>
+    </div>
+
+    <!-- EJERCICIO 10 (Cumpleaños mejor amigo) -->
+    <div class="exercise-card">
+      <div class="exercise-header">
+        <div class="visual-badge">
+          <!-- Calendario 17 SEP -->
+          <svg class="calendar-svg" viewBox="0 0 100 100">
+            <rect x="5" y="15" width="90" height="80" rx="10" fill="#ffffff" stroke="#cbd5e0" stroke-width="3"/>
+            <path d="M 5 25 C 5 18, 12 15, 18 15 L 82 15 C 88 15, 95 18, 95 25 L 95 40 L 5 40 Z" fill="#805ad5"/>
+            <circle cx="30" cy="12" r="4" fill="#a0aec0"/>
+            <circle cx="70" cy="12" r="4" fill="#a0aec0"/>
+            <text x="50" y="32" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">SEP</text>
+            <text x="50" y="78" font-size="36" font-weight="bold" fill="#2d3748" text-anchor="middle">17</text>
+          </svg>
+        </div>
+        <div class="exercise-body">
+          10. El cumpleaños de mi mejor amigo es 
+          <input type="text" class="blank-input input-sm" data-answers="el 17" placeholder="día" autocomplete="off" spellcheck="false"> 
+          de 
+          <input type="text" class="blank-input input-md" data-answers="septiembre,setiembre" placeholder="mes" autocomplete="off" spellcheck="false">.
+        </div>
+      </div>
+    </div>
+
+    <!-- BARRA DE ACCIONES -->
+    <div class="actions-bar">
+      <button class="btn btn-secondary" onclick="resetActivity()">Reiniciar</button>
+      <div class="score-badge" id="score-display">Aciertos: 0 / 10</div>
+      <button class="btn" onclick="checkAll()">Verificar todo</button>
+    </div>
+
+  </div>
+
+  <footer>
+    Contenido de Ruspanski Arg - 2026
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const inputs = document.querySelectorAll('.blank-input');
+
+      inputs.forEach(input => {
+        input.addEventListener('input', () => {
+          validateInput(input);
+          updateScore();
+        });
+      });
+    });
+
+    function validateInput(input) {
+      const val = input.value.trim().toLowerCase();
+      const validAnswers = input.getAttribute('data-answers').toLowerCase().split(',');
+
+      if (val === '') {
+        input.classList.remove('valid-input', 'invalid-input');
+      } else if (validAnswers.some(ans => ans.trim() === val)) {
+        input.classList.add('valid-input');
+        input.classList.remove('invalid-input');
+      } else {
+        input.classList.add('invalid-input');
+        input.classList.remove('valid-input');
+      }
+    }
+
+    function updateScore() {
+      const cards = document.querySelectorAll('.exercise-card');
+      let correctCardsCount = 0;
+
+      cards.forEach(card => {
+        const cardInputs = card.querySelectorAll('.blank-input');
+        const allCorrectInCard = Array.from(cardInputs).every(inp => inp.classList.contains('valid-input'));
+
+        if (allCorrectInCard) {
+          correctCardsCount++;
+        }
+      });
+
+      document.getElementById('score-display').innerText = `Aciertos: ${correctCardsCount} / ${cards.length}`;
+    }
+
+    function checkAll() {
+      const inputs = document.querySelectorAll('.blank-input');
+      inputs.forEach(input => validateInput(input));
+      updateScore();
+    }
+
+    function resetActivity() {
+      const inputs = document.querySelectorAll('.blank-input');
+      inputs.forEach(input => {
+        input.value = '';
+        input.classList.remove('valid-input', 'invalid-input');
+      });
+      document.getElementById('score-display').innerText = `Aciertos: 0 / 10`;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Construcciones Relativas - Práctica Interactiva</title>
+  <style>
+    :root {
+      --primary: #2b6cb0;
+      --primary-dark: #1c4532;
+      --primary-light: #ebf8ff;
+      --accent: #dd6b20;
+      --correct: #38a169;
+      --incorrect: #e53e3e;
+      --bg-main: #f7fafc;
+      --card-bg: #ffffff;
+      --text-color: #2d3748;
+      --border-color: #cbd5e0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 10px;
+      line-height: 1.5;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    header p {
+      font-size: 0.95rem;
+      color: #4a5568;
+    }
+
+    .main-container {
+      width: 100%;
+      max-width: 900px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      padding: 25px;
+    }
+
+    .instructions-box {
+      background: var(--primary-light);
+      border-left: 4px solid var(--primary);
+      padding: 12px 16px;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+      color: #2c5282;
+    }
+
+    /* BANCO DE ELEMENTOS DESLIZABLE / STICKY */
+    .bank-sticky-container {
+      position: sticky;
+      top: 10px;
+      z-index: 100;
+      background: #ffffff;
+      border: 2px solid var(--primary);
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 25px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    }
+
+    .bank-title {
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: var(--primary-dark);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+
+    .bank-columns {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 650px) {
+      .bank-columns {
+        grid-template-columns: 1fr;
+      }
+      .bank-sticky-container {
+        position: relative;
+        top: 0;
+      }
+    }
+
+    .bank-column {
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px;
+    }
+
+    .col-header {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #4a5568;
+      margin-bottom: 8px;
+      text-align: center;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 4px;
+    }
+
+    .chips-flex {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+    }
+
+    /* TOKENS / CHIPS */
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 12px;
+      border-radius: 16px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: grab;
+      user-select: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+    }
+
+    .chip:active {
+      cursor: grabbing;
+    }
+
+    .chip-prep {
+      background-color: #feebc8;
+      color: #7b341e;
+      border: 1px solid #fbd38d;
+    }
+
+    .chip-art {
+      background-color: #ebf8ff;
+      color: #2c5282;
+      border: 1px solid #90cdf4;
+    }
+
+    .chip-rel {
+      background-color: #e6fffa;
+      color: #234e52;
+      border: 1px solid #81e6d9;
+    }
+
+    .chip:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+    }
+
+    /* LISTA DE EJERCICIOS */
+    .exercise-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 16px 18px;
+      margin-bottom: 16px;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      transition: border-color 0.2s;
+    }
+
+    .exercise-card.active-target {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(43, 108, 176, 0.15);
+    }
+
+    /* DROPAREA DENTRO DE LA FRASE */
+    .drop-zone {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      min-width: 140px;
+      min-height: 38px;
+      padding: 2px 8px;
+      margin: 0 4px;
+      background-color: #edf2f7;
+      border: 2px dashed #a0aec0;
+      border-radius: 6px;
+      vertical-align: middle;
+      transition: all 0.2s ease;
+    }
+
+    .drop-zone.drag-over {
+      background-color: #e2e8f0;
+      border-color: var(--primary);
+      transform: scale(1.02);
+    }
+
+    .drop-zone .placed-chip {
+      cursor: pointer;
+      font-size: 0.9rem;
+      padding: 3px 8px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      animation: popIn 0.2s ease;
+    }
+
+    .drop-zone .placed-chip::after {
+      content: "×";
+      font-weight: bold;
+      margin-left: 3px;
+      opacity: 0.6;
+    }
+
+    .drop-zone .placed-chip:hover::after {
+      opacity: 1;
+      color: #c53030;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .drop-placeholder {
+      font-size: 0.85rem;
+      color: #a0aec0;
+      font-style: italic;
+      pointer-events: none;
+    }
+
+    /* ESTADOS DE VALIDACIÓN */
+    .exercise-card.is-correct {
+      border-color: var(--correct);
+      background-color: #f0fff4;
+    }
+
+    .exercise-card.is-correct .drop-zone {
+      border-color: var(--correct);
+      border-style: solid;
+      background-color: #ffffff;
+    }
+
+    .exercise-card.is-incorrect {
+      border-color: var(--incorrect);
+      background-color: #fff5f5;
+    }
+
+    .exercise-card.is-incorrect .drop-zone {
+      border-color: var(--incorrect);
+      border-style: solid;
+      background-color: #ffffff;
+    }
+
+    .feedback-note {
+      display: none;
+      font-size: 0.88rem;
+      margin-top: 8px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      line-height: 1.4;
+    }
+
+    .feedback-note.visible {
+      display: block;
+    }
+
+    .note-info {
+      background-color: #fffaf0;
+      border: 1px solid #feebc8;
+      color: #9c4221;
+    }
+
+    .note-correct {
+      color: #276749;
+      font-weight: 600;
+    }
+
+    .note-incorrect {
+      color: #c53030;
+      font-weight: 600;
+    }
+
+    /* BARRA DE ACCIONES Y RESULTADOS */
+    .actions-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 25px;
+      padding-top: 18px;
+      border-top: 2px solid var(--border-color);
+    }
+
+    .btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn:hover {
+      background-color: #2b6cb0;
+    }
+
+    .btn-secondary {
+      background: #edf2f7;
+      color: #4a5568;
+      border: 1px solid #cbd5e0;
+    }
+
+    .btn-secondary:hover {
+      background: #e2e8f0;
+    }
+
+    .score-badge {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #2d3748;
+    }
+
+    footer {
+      margin-top: 30px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #718096;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Oraciones Relativas en Español</h1>
+    <p>Práctica de combinación de Preposiciones, Artículos y Relativos</p>
+  </header>
+
+  <div class="main-container">
+    
+    <div class="instructions-box">
+      🖐️ <strong>Instrucciones:</strong> Arrastrá las fichas desde el banco superior hacia los espacios en blanco de cada frase para armar la construcción relativa adecuada. También podés hacer clic en un espacio para activarlo y luego tocar las fichas. Hacé clic en una ficha colocada para quitarla.
+    </div>
+
+    <!-- BANCO DE ELEMENTOS STICKY -->
+    <div class="bank-sticky-container">
+      <div class="bank-title">Fichas disponibles (podés reutilizarlas cuantas veces quieras)</div>
+      <div class="bank-columns">
+        
+        <!-- COLUMNA PREPOSICIONES -->
+        <div class="bank-column">
+          <div class="col-header">Preposiciones</div>
+          <div class="chips-flex">
+            <div class="chip chip-prep" draggable="true" data-type="prep" data-value="con">con</div>
+            <div class="chip chip-prep" draggable="true" data-type="prep" data-value="de">de</div>
+            <div class="chip chip-prep" draggable="true" data-type="prep" data-value="desde">desde</div>
+            <div class="chip chip-prep" draggable="true" data-type="prep" data-value="en">en</div>
+            <div class="chip chip-prep" draggable="true" data-type="prep" data-value="por">por</div>
+          </div>
+        </div>
+
+        <!-- COLUMNA ARTÍCULOS -->
+        <div class="bank-column">
+          <div class="col-header">Artículos</div>
+          <div class="chips-flex">
+            <div class="chip chip-art" draggable="true" data-type="art" data-value="el">el</div>
+            <div class="chip chip-art" draggable="true" data-type="art" data-value="la">la</div>
+            <div class="chip chip-art" draggable="true" data-type="art" data-value="los">los</div>
+            <div class="chip chip-art" draggable="true" data-type="art" data-value="las">las</div>
+            <div class="chip chip-art" draggable="true" data-type="art" data-value="lo">lo</div>
+          </div>
+        </div>
+
+        <!-- COLUMNA RELATIVOS -->
+        <div class="bank-column">
+          <div class="col-header">Relativos</div>
+          <div class="chips-flex">
+            <div class="chip chip-rel" draggable="true" data-type="rel" data-value="que">que</div>
+            <div class="chip chip-rel" draggable="true" data-type="rel" data-value="cual">cual</div>
+            <div class="chip chip-rel" draggable="true" data-type="rel" data-value="cuales">cuales</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CONTENEDOR DE EJERCICIOS -->
+    <div id="exercises-list"></div>
+
+    <!-- BARRA DE ACCIONES -->
+    <div class="actions-bar">
+      <button class="btn btn-secondary" onclick="resetAll()">Reiniciar todo</button>
+      <div class="score-badge" id="score-display">Aciertos: 0 / 10</div>
+      <button class="btn" onclick="checkAll()">Verificar respuestas</button>
+    </div>
+
+  </div>
+
+  <footer>
+    Contenido de Ruspanski Arg - 2026
+  </footer>
+
+  <script>
+    const exercisesData = [
+      {
+        id: 1,
+        before: "1. Me encantan los caminitos de tierra",
+        after: "pasa nadie.",
+        valid: ["por los que", "por los cuales"]
+      },
+      {
+        id: 2,
+        before: "2. En la ciudad se encuentra una de las fábricas de una conocida marca de coches,",
+        after: "da trabajo a miles de personas de la zona.",
+        valid: ["que", "la que", "la cual"]
+      },
+      {
+        id: 3,
+        before: "3. — ¿Sabes que dan un concierto en el CCK?<br>— ¿Ah, sí? ¿Es ese edificio",
+        after: "hay una sala enorme colgante que parece una ballena?",
+        valid: ["en el que", "en el cual"]
+      },
+      {
+        id: 4,
+        before: "4. La antigua muralla romana,",
+        after: "se encuentra en muy buen estado de conservación, atrae a numerosos turistas a la ciudad gallega de Lugo.",
+        valid: ["que", "la cual"]
+      },
+      {
+        id: 5,
+        before: "5. Hay algunos riesgos",
+        after: "el viajero debe ser consciente antes de visitar ciertos lugares.",
+        valid: ["de los que", "de los cuales"]
+      },
+      {
+        id: 6,
+        before: "6. Nunca me he encontrado en una situación",
+        after: "mi vida corriera peligro.",
+        valid: ["en que", "en la que", "en la cual"]
+      },
+      {
+        id: 7,
+        before: "7. La torre de Hércules,",
+        after: "hay una vista fantástica de La Coruña, es visitada por miles de turistas.",
+        valid: ["desde la que", "desde la cual", "de la que", "de la cual"]
+      },
+      {
+        id: 8,
+        before: "8. En la actualidad hay muchas compañías aéreas de bajo coste,",
+        after: "ha favorecido que la gente viaje más.",
+        valid: ["lo que", "lo cual"]
+      },
+      {
+        id: 9,
+        before: "9. ¿Recordás todo",
+        after: "te dije ayer sobre Marcos y Ana? Pues resulta que era mentira.",
+        valid: ["lo que"],
+        specialFeedback: {
+          "lo cual": "💡 Con 'todo', la construcción estándar y fluida en el español cotidiano es 'todo lo que'. La forma 'todo lo cual' no es habitual en el habla diaria."
+        }
+      },
+      {
+        id: 10,
+        before: "10. Cuando fui a Londres, los de la compañía aérea me perdieron la maleta y claro, como no tenía nada",
+        after: "abrigarme, me compré un montón de ropa.",
+        valid: ["con que", "con lo que"]
+      }
+    ];
+
+    let activeZoneId = null;
+    let draggedChipData = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderExercises();
+      initBankDragAndClick();
+    });
+
+    function renderExercises() {
+      const container = document.getElementById('exercises-list');
+      container.innerHTML = '';
+
+      exercisesData.forEach(ex => {
+        const card = document.createElement('div');
+        card.className = 'exercise-card';
+        card.id = `ex-card-${ex.id}`;
+
+        card.innerHTML = `
+          <div>
+            ${ex.before}
+            <div class="drop-zone" id="drop-zone-${ex.id}" data-ex-id="${ex.id}">
+              <span class="drop-placeholder">arrastrá o tocá acá</span>
+            </div>
+            ${ex.after}
+          </div>
+          <div class="feedback-note" id="feedback-${ex.id}"></div>
+        `;
+
+        container.appendChild(card);
+
+        // Eventos de Dropzone
+        const dropZone = card.querySelector('.drop-zone');
+
+        dropZone.addEventListener('click', (e) => {
+          if (e.target === dropZone || e.target.classList.contains('drop-placeholder')) {
+            setActiveZone(ex.id);
+          }
+        });
+
+        dropZone.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          dropZone.classList.add('drag-over');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+          dropZone.classList.remove('drag-over');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+          e.preventDefault();
+          dropZone.classList.remove('drag-over');
+          if (draggedChipData) {
+            addChipToZone(ex.id, draggedChipData.val, draggedChipData.type);
+          }
+        });
+      });
+    }
+
+    function setActiveZone(exId) {
+      activeZoneId = exId;
+      document.querySelectorAll('.exercise-card').forEach(card => {
+        card.classList.remove('active-target');
+      });
+      const activeCard = document.getElementById(`ex-card-${exId}`);
+      if (activeCard) {
+        activeCard.classList.add('active-target');
+      }
+    }
+
+    function initBankDragAndClick() {
+      const bankChips = document.querySelectorAll('.bank-sticky-container .chip');
+
+      bankChips.forEach(chip => {
+        // Drag start
+        chip.addEventListener('dragstart', (e) => {
+          draggedChipData = {
+            val: chip.getAttribute('data-value'),
+            type: chip.getAttribute('data-type')
+          };
+          e.dataTransfer.setData('text/plain', chip.getAttribute('data-value'));
+        });
+
+        // Click to add to active zone (or default zone 1)
+        chip.addEventListener('click', () => {
+          const targetId = activeZoneId || 1;
+          addChipToZone(targetId, chip.getAttribute('data-value'), chip.getAttribute('data-type'));
+        });
+      });
+    }
+
+    function addChipToZone(exId, value, type) {
+      const dropZone = document.getElementById(`drop-zone-${exId}`);
+      if (!dropZone) return;
+
+      // Ocultar placeholder
+      const placeholder = dropZone.querySelector('.drop-placeholder');
+      if (placeholder) placeholder.style.display = 'none';
+
+      // Crear chip colocado
+      const chipElem = document.createElement('span');
+      chipElem.className = `placed-chip chip-${type}`;
+      chipElem.innerText = value;
+      chipElem.setAttribute('data-value', value);
+
+      // Clic en la ficha colocada para quitarla
+      chipElem.addEventListener('click', (e) => {
+        e.stopPropagation();
+        chipElem.remove();
+
+        // Si la zona quedó vacía, mostrar placeholder
+        const remaining = dropZone.querySelectorAll('.placed-chip');
+        if (remaining.length === 0 && placeholder) {
+          placeholder.style.display = 'inline';
+        }
+        
+        // Limpiar estado de verificación si cambia
+        resetCardStatus(exId);
+      });
+
+      dropZone.appendChild(chipElem);
+      setActiveZone(exId);
+      resetCardStatus(exId);
+    }
+
+    function getComboFromZone(exId) {
+      const dropZone = document.getElementById(`drop-zone-${exId}`);
+      if (!dropZone) return '';
+      const chips = dropZone.querySelectorAll('.placed-chip');
+      const vals = Array.from(chips).map(c => c.getAttribute('data-value').trim());
+      return vals.join(' ').toLowerCase();
+    }
+
+    function resetCardStatus(exId) {
+      const card = document.getElementById(`ex-card-${exId}`);
+      const feedback = document.getElementById(`feedback-${exId}`);
+      if (card) {
+        card.classList.remove('is-correct', 'is-incorrect');
+      }
+      if (feedback) {
+        feedback.className = 'feedback-note';
+        feedback.innerText = '';
+      }
+    }
+
+    function checkAll() {
+      let correctCount = 0;
+
+      exercisesData.forEach(ex => {
+        const combo = getComboFromZone(ex.id);
+        const card = document.getElementById(`ex-card-${ex.id}`);
+        const feedback = document.getElementById(`feedback-${ex.id}`);
+
+        const isMatch = ex.valid.some(val => val.toLowerCase() === combo);
+
+        if (isMatch) {
+          correctCount++;
+          card.className = 'exercise-card is-correct';
+          feedback.className = 'feedback-note note-correct visible';
+          feedback.innerHTML = `✓ ¡Correcto! Opciones válidas: <em>${ex.valid.join(' / ')}</em>`;
+        } else {
+          card.className = 'exercise-card is-incorrect';
+          feedback.className = 'feedback-note note-incorrect visible';
+
+          let noteText = `✗ Incompleto o incorrecto. Opciones válidas: <strong>${ex.valid.join(' / ')}</strong>`;
+
+          // Verificación de caso especial (Ejemplo 9 con 'lo cual')
+          if (ex.specialFeedback && ex.specialFeedback[combo]) {
+            feedback.className = 'feedback-note note-info visible';
+            noteText = `⚠️ ${ex.specialFeedback[combo]}<br>Opción válida recomendada: <strong>${ex.valid.join(' / ')}</strong>`;
+          }
+
+          feedback.innerHTML = noteText;
+        }
+      });
+
+      document.getElementById('score-display').innerText = `Aciertos: ${correctCount} / ${exercisesData.length}`;
+    }
+
+    function resetAll() {
+      exercisesData.forEach(ex => {
+        const dropZone = document.getElementById(`drop-zone-${ex.id}`);
+        if (dropZone) {
+          const chips = dropZone.querySelectorAll('.placed-chip');
+          chips.forEach(c => c.remove());
+          const placeholder = dropZone.querySelector('.drop-placeholder');
+          if (placeholder) placeholder.style.display = 'inline';
+        }
+        resetCardStatus(ex.id);
+      });
+
+      activeZoneId = null;
+      document.querySelectorAll('.exercise-card').forEach(card => card.classList.remove('active-target'));
+      document.getElementById('score-display').innerText = `Aciertos: 0 / ${exercisesData.length}`;
+    }
+  </script>
+</body>
+</html>

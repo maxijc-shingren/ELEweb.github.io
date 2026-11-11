@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica de Cuantificadores: Mercado Laboral en Argentina</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f7f6;
+        }
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        p.instructions {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+        .question {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        select {
+            padding: 5px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin: 0 5px;
+            cursor: pointer;
+            background-color: #fff;
+        }
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #0052a3;
+        }
+        .feedback {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        .correct { color: #27ae60; }
+        .incorrect { color: #c0392b; }
+        .icon { margin-left: 10px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Cuantificadores: El mercado laboral</h1>
+        <p class="instructions">Completa las siguientes frases sobre estadísticas y empleo en Argentina seleccionando el cuantificador adecuado para cada caso (nivel B1).</p>
+        
+        <form id="quiz-form">
+            <div class="question">
+                1. <select data-answer="La mayor parte de"><option value="">---</option><option value="La mayor parte de">La mayor parte de</option><option value="Muchos de">Muchos de</option><option value="Bastante">Bastante</option></select> la desocupación se registró entre la provincia de Bs. As. y la región pampeana.
+                <span class="icon"></span>
+            </div>
+            <div class="question">
+                2. Durante el último trimestre, <select data-answer="bastantes"><option value="">---</option><option value="bastantes">bastantes</option><option value="nadie">nadie</option><option value="la mayor parte de">la mayor parte de</option></select> personas perdieron su empleo o buscaron un segundo trabajo.
+                <span class="icon"></span>
+            </div>
+            <div class="question">
+                3. <select data-answer="Ninguno de"><option value="">---</option><option value="Algunos">Algunos</option><option value="Pocos">Pocos</option><option value="Ninguno de">Ninguno de</option></select> los encuestados afirma tener un salario suficiente para cubrir el alto costo de vida actual.
+                <span class="icon"></span>
+            </div>
+            <div class="question">
+                4. Hoy en día, <select data-answer="muchos"><option value="">---</option><option value="muchos">muchos</option><option value="bastante">bastante</option><option value="la mayoría de">la mayoría de</option></select> jóvenes de entre 18 y 24 años tienen serias dificultades para conseguir su primer empleo formal.
+                <span class="icon"></span>
+            </div>
+            <div class="question">
+                5. A pesar del contexto, <select data-answer="algunas"><option value="">---</option><option value="nadie">nadie</option><option value="unos cuantos">unos cuantos</option><option value="algunas">algunas</option></select> empresas tecnológicas ofrecen la posibilidad de trabajar con un esquema híbrido.
+                <span class="icon"></span>
+            </div>
+            <div class="question">
+                6. Tras la pandemia, casi <select data-answer="nadie"><option value="">---</option><option value="nadie">nadie</option><option value="todos">todos</option><option value="ninguno de los">ninguno de los</option></select> quiere volver a trabajar en un esquema 100% presencial si puede evitarlo.
+                <span class="icon"></span>
+            </div>
+            <div class="question">
+                7. <select data-answer="La mayoría de"><option value="">---</option><option value="La mayoría de">La mayoría de</option><option value="Bastantes">Bastantes</option><option value="Unos pocos">Unos pocos</option></select> los candidatos que se postulan cumplen con los requisitos mínimos exigidos en la oferta.
+                <span class="icon"></span>
+            </div>
+            <div class="question">
+                8. Lamentablemente, <select data-answer="varios"><option value="">---</option><option value="ninguno">ninguno</option><option value="unos cuantos de">unos cuantos de</option><option value="varios">varios</option></select> compañeros de la oficina hacen horas extras todas las semanas sin cobrarlas.
+                <span class="icon"></span>
+            </div>
+            <div class="question">
+                9. En la última búsqueda laboral, <select data-answer="casi todos los"><option value="">---</option><option value="la mayor parte de">la mayor parte de</option><option value="casi todos los">casi todos los</option><option value="pocos de">pocos de</option></select> currículums recibidos contaban con un buen nivel de inglés.
+                <span class="icon"></span>
+            </div>
+            <div class="question">
+                10. Con la alta inflación, solo <select data-answer="unas cuantas"><option value="">---</option><option value="unas cuantas">unas cuantas</option><option value="un poco de">un poco de</option><option value="ninguno">ninguno</option></select> empresas pequeñas lograron ajustar los sueldos a tiempo.
+                <span class="icon"></span>
+            </div>
+            <div class="question">
+                11. Se abrieron <select data-answer="unos cuantos"><option value="">---</option><option value="pocos de">pocos de</option><option value="la mayor parte">la mayor parte</option><option value="unos cuantos">unos cuantos</option></select> puestos de trabajo nuevos vinculados al área de logística y comercio electrónico.
+                <span class="icon"></span>
+            </div>
+            <div class="question">
+                12. <select data-answer="Algunos de"><option value="">---</option><option value="Algunos de">Algunos de</option><option value="Varios">Varios</option><option value="Nadie de">Nadie de</option></select> los trabajadores temporales lograron conseguir un contrato fijo después del periodo de prueba.
+                <span class="icon"></span>
+            </div>
+
+            <div class="btn-container">
+                <button type="button" class="btn" onclick="checkAnswers()">Verificar respuestas</button>
+            </div>
+        </form>
+
+        <div id="result" class="feedback"></div>
+    </div>
+
+    <script>
+        function checkAnswers() {
+            const selects = document.querySelectorAll('select');
+            let score = 0;
+            
+            selects.forEach(select => {
+                const correctAnswer = select.getAttribute('data-answer');
+                const iconSpan = select.nextElementSibling;
+                
+                if (select.value === correctAnswer) {
+                    score++;
+                    select.style.borderColor = '#27ae60';
+                    iconSpan.innerHTML = '✔';
+                    iconSpan.className = 'icon correct';
+                } else if (select.value !== "") {
+                    select.style.borderColor = '#c0392b';
+                    iconSpan.innerHTML = '✘';
+                    iconSpan.className = 'icon incorrect';
+                } else {
+                    select.style.borderColor = '#ccc';
+                    iconSpan.innerHTML = '';
+                }
+            });
+
+            const resultDiv = document.getElementById('result');
+            if (score === selects.length) {
+                resultDiv.innerHTML = `¡Perfecto! Obtuviste ${score} de ${selects.length} correctas.`;
+                resultDiv.className = 'feedback correct';
+            } else {
+                resultDiv.innerHTML = `Obtuviste ${score} de ${selects.length} correctas. Revisa las marcadas en rojo e inténtalo de nuevo.`;
+                resultDiv.className = 'feedback incorrect';
+            }
+        }
+    </script>
+</body>
+</html>
